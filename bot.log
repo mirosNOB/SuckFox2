@@ -1,0 +1,964 @@
+2025-03-25 17:38:34,026 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:38:34,026 - __main__ - INFO - Токен: 7571440237:AAFNPsOHL4h0dhABzj7ANR6wZHZAa7HOTzE
+2025-03-25 17:40:10,794 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:40:10,795 - __main__ - INFO - Токен: 7571440237:AAFNPsOHL4h0dhABzj7ANR6wZHZAa7HOTzE
+2025-03-25 17:41:13,597 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:41:13,599 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:41:13,674 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:41:16,446 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:42:02,958 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:42:03,126 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:42:03,126 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:44:30,195 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:44:30,196 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:44:30,198 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:44:30,198 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:44:30,203 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:44:30,203 - __main__ - INFO - Бот остановлен
+2025-03-25 17:44:30,256 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:44:32,803 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:44:32,805 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:44:32,827 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:44:32,875 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:44:33,585 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:44:33,754 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:44:33,754 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:46:35,389 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:46:35,390 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:46:35,392 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:46:35,392 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:46:35,396 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:46:35,397 - __main__ - INFO - Бот остановлен
+2025-03-25 17:46:35,450 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:46:36,970 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:46:36,971 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:46:36,993 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:46:37,037 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:46:37,851 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:46:38,014 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:46:38,015 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:46:56,247 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 17:47:07,928 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 17:47:14,742 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-207' coro=<Dispatcher._process_polling_updates() done, defined at /home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py:410> exception=NameError("name 'ADMIN_SECRET_CODE' is not defined")>
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 418, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 236, in process_updates
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 257, in process_update
+    return await self.message_handlers.notify(update.message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/main.py", line 498, in cmd_self_admin
+    if secret_code == ADMIN_SECRET_CODE:
+                      ^^^^^^^^^^^^^^^^^
+NameError: name 'ADMIN_SECRET_CODE' is not defined
+2025-03-25 17:47:19,438 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:47:19,439 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:47:19,439 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:47:19,440 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:47:19,445 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:47:19,445 - __main__ - INFO - Бот остановлен
+2025-03-25 17:47:19,500 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:48:17,908 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:48:17,909 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:48:17,932 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:48:17,975 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:48:18,290 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:48:18,459 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:48:18,459 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:48:22,375 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 17:48:26,804 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-26' coro=<Dispatcher._process_polling_updates() done, defined at /home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py:410> exception=NameError("name 'ADMIN_SECRET_CODE' is not defined")>
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 418, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 236, in process_updates
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 257, in process_update
+    return await self.message_handlers.notify(update.message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/main.py", line 498, in cmd_self_admin
+    if secret_code == ADMIN_SECRET_CODE:
+                      ^^^^^^^^^^^^^^^^^
+NameError: name 'ADMIN_SECRET_CODE' is not defined
+2025-03-25 17:48:33,767 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-86' coro=<Dispatcher._process_polling_updates() done, defined at /home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py:410> exception=NameError("name 'ADMIN_SECRET_CODE' is not defined")>
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 418, in _process_polling_updates
+    for responses in itertools.chain.from_iterable(await self.process_updates(updates, fast)):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 236, in process_updates
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 257, in process_update
+    return await self.message_handlers.notify(update.message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/handler.py", line 117, in notify
+    response = await handler_obj.handler(*args, **partial_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/main.py", line 498, in cmd_self_admin
+    if secret_code == ADMIN_SECRET_CODE:
+                      ^^^^^^^^^^^^^^^^^
+NameError: name 'ADMIN_SECRET_CODE' is not defined
+2025-03-25 17:48:44,329 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:48:44,330 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:48:44,331 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:48:44,331 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:48:44,336 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:48:44,336 - __main__ - INFO - Бот остановлен
+2025-03-25 17:48:44,392 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:50:16,486 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:50:16,487 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:50:49,804 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:50:49,805 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:50:49,827 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:50:49,874 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:50:50,286 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:50:50,459 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:50:50,459 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:52:27,000 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:52:27,001 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:52:27,003 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:52:27,003 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:52:27,008 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:52:27,008 - __main__ - INFO - Бот остановлен
+2025-03-25 17:52:27,060 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:52:28,977 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:52:28,978 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:52:28,999 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:52:29,050 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:52:29,506 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:52:29,685 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:52:29,685 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:54:00,422 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 17:54:00,636 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 17:54:01,069 - __main__ - INFO - Получено 7 постов из канала @github
+2025-03-25 17:54:01,382 - ai_service - INFO - Веб-поиск активирован, max_results: 3
+2025-03-25 17:54:01,734 - ai_service - INFO - Отправляем запрос к OpenRouter API, модель: anthropic/claude-3-7-sonnet:thinking, размер данных: 2056, веб-поиск: True
+2025-03-25 17:54:19,055 - ai_service - INFO - Получен ответ от OpenRouter API, статус: 200
+2025-03-25 17:56:45,997 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 17:57:32,561 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 17:57:42,055 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 17:58:11,296 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 17:58:35,645 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:58:35,646 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:58:35,648 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:58:35,648 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:58:35,653 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:58:35,653 - __main__ - INFO - Бот остановлен
+2025-03-25 17:58:35,708 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:58:37,070 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:58:37,071 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:58:37,092 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:58:37,136 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:58:37,519 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:58:37,682 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:58:37,682 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:59:18,293 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 17:59:18,295 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 17:59:18,297 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 17:59:18,297 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:59:18,302 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 17:59:18,302 - __main__ - INFO - Бот остановлен
+2025-03-25 17:59:18,356 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 17:59:19,883 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 17:59:19,884 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 17:59:19,906 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 17:59:19,957 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 17:59:20,404 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 17:59:20,575 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 17:59:20,575 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 17:59:26,767 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 17:59:26,893 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 17:59:27,427 - __main__ - INFO - Получено 7 постов из канала @github
+2025-03-25 17:59:27,595 - ai_service - INFO - Отправляем запрос к Monica API, модель: gpt-4o, размер данных: 2056
+2025-03-25 17:59:40,397 - ai_service - INFO - Получен ответ от Monica API, статус: 200
+2025-03-25 18:01:08,961 - telethon.client.updates - INFO - Got difference for channel 2366096301 updates
+2025-03-25 18:01:13,979 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 18:01:13,980 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 18:01:13,981 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 18:01:13,982 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:01:13,987 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 18:01:13,987 - __main__ - INFO - Бот остановлен
+2025-03-25 18:01:14,034 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 18:01:15,519 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 18:01:15,520 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 18:01:15,541 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 18:01:15,583 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:01:15,914 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 18:01:16,193 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 18:01:16,193 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 18:01:29,789 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 18:01:53,477 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:01:53,643 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:01:54,067 - __main__ - INFO - Получено 23 постов из канала @github
+2025-03-25 18:01:54,425 - ai_service - INFO - Отправляем запрос к Monica API, модель: gpt-4o, размер данных: 7590
+2025-03-25 18:02:03,197 - ai_service - INFO - Получен ответ от Monica API, статус: 200
+2025-03-25 18:02:15,795 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:02:15,912 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:02:16,179 - __main__ - INFO - Получено 23 постов из канала @github
+2025-03-25 18:02:16,327 - ai_service - INFO - Веб-поиск активирован, max_results: 10
+2025-03-25 18:02:16,419 - ai_service - INFO - Отправляем запрос к OpenRouter API, модель: anthropic/claude-3-7-sonnet:thinking, размер данных: 7590, веб-поиск: True
+2025-03-25 18:02:40,593 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 18:02:43,904 - telethon.client.updates - INFO - Got difference for channel 1802259263 updates
+2025-03-25 18:03:08,069 - ai_service - INFO - Получен ответ от OpenRouter API, статус: 200
+2025-03-25 18:05:44,525 - telethon.client.updates - INFO - Got difference for channel 2295379510 updates
+2025-03-25 18:06:17,735 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 18:06:17,735 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 18:06:17,737 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 18:06:17,737 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:06:17,742 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 18:06:17,742 - __main__ - INFO - Бот остановлен
+2025-03-25 18:06:17,785 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 18:07:02,920 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 18:07:02,922 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 18:07:02,944 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 18:07:02,986 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:07:03,595 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 18:07:03,851 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 18:07:03,852 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 18:07:10,434 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:07:10,656 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:07:11,078 - __main__ - INFO - Получено 8 постов из канала @github
+2025-03-25 18:07:11,311 - ai_service - INFO - Отправляем запрос к Monica API, модель: gpt-4o, размер данных: 2692
+2025-03-25 18:07:51,096 - ai_service - INFO - Получен ответ от Monica API, статус: 200
+2025-03-25 18:10:27,664 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 18:13:42,734 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 18:17:48,186 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 18:17:48,187 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 18:17:48,188 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 18:17:48,188 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:17:48,193 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 18:17:48,193 - __main__ - INFO - Бот остановлен
+2025-03-25 18:17:48,239 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 18:17:50,044 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 18:17:50,045 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 18:17:50,065 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 18:17:50,111 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:17:50,593 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 18:17:50,743 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 18:17:50,743 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 18:18:10,047 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:18:10,156 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:18:10,439 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:10,641 - __main__ - INFO - Скачано фото: temp_photos/20250325_150007_6797.jpg
+2025-03-25 18:18:10,642 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_150007_6797.jpg
+2025-03-25 18:18:10,643 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:10,722 - __main__ - INFO - Скачано фото: temp_photos/20250325_113529_6795.jpg
+2025-03-25 18:18:10,722 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_113529_6795.jpg
+2025-03-25 18:18:10,723 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:10,795 - __main__ - INFO - Скачано фото: temp_photos/20250325_083442_6794.jpg
+2025-03-25 18:18:10,795 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_083442_6794.jpg
+2025-03-25 18:18:10,795 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:10,895 - __main__ - INFO - Скачано фото: temp_photos/20250325_053337_6793.jpg
+2025-03-25 18:18:10,895 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_053337_6793.jpg
+2025-03-25 18:18:10,896 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:10,970 - __main__ - INFO - Скачано фото: temp_photos/20250324_214558_6792.jpg
+2025-03-25 18:18:10,970 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_214558_6792.jpg
+2025-03-25 18:18:10,971 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:11,080 - __main__ - INFO - Скачано фото: temp_photos/20250324_190342_6791.jpg
+2025-03-25 18:18:11,080 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_190342_6791.jpg
+2025-03-25 18:18:11,081 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:11,155 - __main__ - INFO - Скачано фото: temp_photos/20250324_160337_6790.jpg
+2025-03-25 18:18:11,155 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_160337_6790.jpg
+2025-03-25 18:18:11,156 - __main__ - INFO - Получено 8 постов из канала @github
+2025-03-25 18:18:11,156 - ai_service - ERROR - ❌ Неожиданная ошибка при запросе к OpenRouter: 'gpt-4o'
+2025-03-25 18:18:11,157 - ai_service - ERROR - Трассировка ошибки: Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/ai_service.py", line 424, in try_openrouter_request_with_images
+    model_info = OPENROUTER_MODELS[selected_model]
+                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'gpt-4o'
+
+2025-03-25 18:18:11,157 - __main__ - ERROR - ❌ Ошибка при анализе папки nw: ❌ Неожиданная ошибка при запросе к OpenRouter: 'gpt-4o'
+2025-03-25 18:18:23,229 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:18:23,341 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:18:23,576 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:23,744 - __main__ - INFO - Скачано фото: temp_photos/20250325_150007_6797.jpg
+2025-03-25 18:18:23,745 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_150007_6797.jpg
+2025-03-25 18:18:23,746 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:23,829 - __main__ - INFO - Скачано фото: temp_photos/20250325_113529_6795.jpg
+2025-03-25 18:18:23,829 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_113529_6795.jpg
+2025-03-25 18:18:23,830 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:23,896 - __main__ - INFO - Скачано фото: temp_photos/20250325_083442_6794.jpg
+2025-03-25 18:18:23,896 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_083442_6794.jpg
+2025-03-25 18:18:23,897 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:23,979 - __main__ - INFO - Скачано фото: temp_photos/20250325_053337_6793.jpg
+2025-03-25 18:18:23,980 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_053337_6793.jpg
+2025-03-25 18:18:23,980 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:24,059 - __main__ - INFO - Скачано фото: temp_photos/20250324_214558_6792.jpg
+2025-03-25 18:18:24,059 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_214558_6792.jpg
+2025-03-25 18:18:24,060 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:24,157 - __main__ - INFO - Скачано фото: temp_photos/20250324_190342_6791.jpg
+2025-03-25 18:18:24,157 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_190342_6791.jpg
+2025-03-25 18:18:24,158 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:18:24,234 - __main__ - INFO - Скачано фото: temp_photos/20250324_160337_6790.jpg
+2025-03-25 18:18:24,234 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_160337_6790.jpg
+2025-03-25 18:18:24,235 - __main__ - INFO - Получено 8 постов из канала @github
+2025-03-25 18:18:24,453 - ai_service - INFO - Веб-поиск активирован, max_results: 10
+2025-03-25 18:18:25,028 - ai_service - INFO - Отправляем запрос к OpenRouter API с изображениями, модель: anthropic/claude-3-7-sonnet:thinking, размер текста: 2692, кол-во изображений: 7, веб-поиск: True
+2025-03-25 18:19:15,248 - ai_service - INFO - Получен ответ от OpenRouter API, статус: 200
+2025-03-25 18:25:33,151 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 18:30:00,483 - telethon.client.updates - INFO - Got difference for channel 2295766297 updates
+2025-03-25 18:32:50,810 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 18:32:50,970 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 18:32:55,725 - telethon.client.updates - INFO - Got difference for channel 2189875640 updates
+2025-03-25 18:32:56,311 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:33:04,405 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:33:40,112 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:33:47,202 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:34:14,831 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:35:05,925 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:35:06,079 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 18:35:17,869 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:35:37,915 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:35:52,133 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:36:08,542 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 18:36:08,815 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:36:23,423 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:36:31,349 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:36:35,876 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 18:36:35,877 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 18:36:35,878 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 18:36:35,878 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:36:35,883 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 18:36:35,883 - __main__ - INFO - Бот остановлен
+2025-03-25 18:36:35,928 - aiogram.dispatcher.dispatcher - INFO - Stop polling...
+2025-03-25 18:36:37,523 - __main__ - INFO - Загружаем .env файл...
+2025-03-25 18:36:37,524 - __main__ - INFO - Токен: 7177245176:AAGwT2HZDyCmZ_-eMniRAISKAt36Hp_E938
+2025-03-25 18:36:37,546 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 18:36:37,748 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 18:36:46,126 - apscheduler.scheduler - INFO - Scheduler started
+2025-03-25 18:36:47,630 - __main__ - INFO - Бот @imsportikbot запущен!
+2025-03-25 18:36:47,630 - aiogram.dispatcher.dispatcher - INFO - Start polling.
+2025-03-25 18:37:05,565 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:37:05,855 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:37:06,378 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:06,954 - __main__ - INFO - Скачано фото: temp_photos/20250325_150007_6797.jpg
+2025-03-25 18:37:06,954 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_150007_6797.jpg
+2025-03-25 18:37:06,955 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:07,161 - __main__ - INFO - Скачано фото: temp_photos/20250325_113529_6795.jpg
+2025-03-25 18:37:07,161 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_113529_6795.jpg
+2025-03-25 18:37:07,162 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:07,338 - __main__ - INFO - Скачано фото: temp_photos/20250325_083442_6794.jpg
+2025-03-25 18:37:07,338 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_083442_6794.jpg
+2025-03-25 18:37:07,339 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:07,504 - __main__ - INFO - Скачано фото: temp_photos/20250325_053337_6793.jpg
+2025-03-25 18:37:07,505 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_053337_6793.jpg
+2025-03-25 18:37:07,505 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:07,846 - __main__ - INFO - Скачано фото: temp_photos/20250324_214558_6792.jpg
+2025-03-25 18:37:07,847 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_214558_6792.jpg
+2025-03-25 18:37:07,847 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:08,023 - __main__ - INFO - Скачано фото: temp_photos/20250324_190342_6791.jpg
+2025-03-25 18:37:08,024 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_190342_6791.jpg
+2025-03-25 18:37:08,024 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:37:08,206 - __main__ - INFO - Скачано фото: temp_photos/20250324_160337_6790.jpg
+2025-03-25 18:37:08,206 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_160337_6790.jpg
+2025-03-25 18:37:08,207 - __main__ - INFO - Получено 8 постов из канала @github
+2025-03-25 18:37:08,207 - ai_service - ERROR - ❌ Неожиданная ошибка при запросе к OpenRouter: 'gpt-4o'
+2025-03-25 18:37:08,208 - ai_service - ERROR - Трассировка ошибки: Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/ai_service.py", line 424, in try_openrouter_request_with_images
+    model_info = OPENROUTER_MODELS[selected_model]
+                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'gpt-4o'
+
+2025-03-25 18:37:08,208 - __main__ - ERROR - ❌ Ошибка при анализе папки nw: ❌ Неожиданная ошибка при запросе к OpenRouter: 'gpt-4o'
+2025-03-25 18:37:08,372 - __main__ - INFO - Удален файл из папки temp_photos: 20250325_150007_6797.jpg
+2025-03-25 18:37:08,373 - __main__ - INFO - Удален файл из папки temp_photos: 20250325_113529_6795.jpg
+2025-03-25 18:37:08,373 - __main__ - INFO - Удален файл из папки temp_photos: 20250325_083442_6794.jpg
+2025-03-25 18:37:08,373 - __main__ - INFO - Удален файл из папки temp_photos: 20250325_053337_6793.jpg
+2025-03-25 18:37:08,373 - __main__ - INFO - Удален файл из папки temp_photos: 20250324_214558_6792.jpg
+2025-03-25 18:37:08,373 - __main__ - INFO - Удален файл из папки temp_photos: 20250324_190342_6791.jpg
+2025-03-25 18:37:08,374 - __main__ - INFO - Удален файл из папки temp_photos: 20250324_160337_6790.jpg
+2025-03-25 18:37:08,374 - __main__ - INFO - Удален файл из папки photos: 20250325_150007_6797.jpg
+2025-03-25 18:37:08,374 - __main__ - INFO - Удален файл из папки photos: 20250325_113529_6795.jpg
+2025-03-25 18:37:08,374 - __main__ - INFO - Удален файл из папки photos: 20250325_083442_6794.jpg
+2025-03-25 18:37:08,374 - __main__ - INFO - Удален файл из папки photos: 20250325_053337_6793.jpg
+2025-03-25 18:37:08,375 - __main__ - INFO - Удален файл из папки photos: 20250324_214558_6792.jpg
+2025-03-25 18:37:08,375 - __main__ - INFO - Удален файл из папки photos: 20250324_190342_6791.jpg
+2025-03-25 18:37:08,375 - __main__ - INFO - Удален файл из папки photos: 20250324_160337_6790.jpg
+2025-03-25 18:38:06,063 - __main__ - INFO - Получаю посты из канала @github
+2025-03-25 18:38:06,262 - __main__ - INFO - Успешно присоединился к каналу @github
+2025-03-25 18:38:06,536 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:06,939 - __main__ - INFO - Скачано фото: temp_photos/20250325_150007_6797.jpg
+2025-03-25 18:38:06,940 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_150007_6797.jpg
+2025-03-25 18:38:06,941 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:07,171 - __main__ - INFO - Скачано фото: temp_photos/20250325_113529_6795.jpg
+2025-03-25 18:38:07,172 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_113529_6795.jpg
+2025-03-25 18:38:07,172 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:07,342 - __main__ - INFO - Скачано фото: temp_photos/20250325_083442_6794.jpg
+2025-03-25 18:38:07,343 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_083442_6794.jpg
+2025-03-25 18:38:07,343 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:07,530 - __main__ - INFO - Скачано фото: temp_photos/20250325_053337_6793.jpg
+2025-03-25 18:38:07,531 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250325_053337_6793.jpg
+2025-03-25 18:38:07,531 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:07,715 - __main__ - INFO - Скачано фото: temp_photos/20250324_214558_6792.jpg
+2025-03-25 18:38:07,715 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_214558_6792.jpg
+2025-03-25 18:38:07,716 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:07,995 - __main__ - INFO - Скачано фото: temp_photos/20250324_190342_6791.jpg
+2025-03-25 18:38:07,996 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_190342_6791.jpg
+2025-03-25 18:38:07,996 - telethon.client.downloads - INFO - Starting direct file download in chunks of 131072 at 0, stride 131072
+2025-03-25 18:38:08,236 - __main__ - INFO - Скачано фото: temp_photos/20250324_160337_6790.jpg
+2025-03-25 18:38:08,237 - __main__ - INFO - Фото сохранено на постоянное хранение: photos/20250324_160337_6790.jpg
+2025-03-25 18:38:08,237 - __main__ - INFO - Получено 8 постов из канала @github
+2025-03-25 18:38:08,339 - ai_service - INFO - Веб-поиск активирован, max_results: 10
+2025-03-25 18:38:08,466 - ai_service - INFO - Отправляем запрос к OpenRouter API с изображениями, модель: anthropic/claude-3-7-sonnet, размер текста: 2692, кол-во изображений: 7, веб-поиск: True
+2025-03-25 18:38:34,969 - ai_service - INFO - Получен ответ от OpenRouter API, статус: 200
+2025-03-25 18:38:35,139 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250325_150007_6797.jpg
+2025-03-25 18:38:35,139 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250325_113529_6795.jpg
+2025-03-25 18:38:35,140 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250325_083442_6794.jpg
+2025-03-25 18:38:35,140 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250325_053337_6793.jpg
+2025-03-25 18:38:35,141 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250324_214558_6792.jpg
+2025-03-25 18:38:35,141 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250324_190342_6791.jpg
+2025-03-25 18:38:35,142 - __main__ - INFO - Фото скопировано в постоянную папку: photo/20250324_160337_6790.jpg
+2025-03-25 18:38:35,355 - __main__ - INFO - Удаляю все использованные фотографии после получения ответа от API
+2025-03-25 18:38:35,355 - __main__ - INFO - Удален файл: temp_photos/20250325_150007_6797.jpg
+2025-03-25 18:38:35,355 - __main__ - INFO - Удален файл: temp_photos/20250325_113529_6795.jpg
+2025-03-25 18:38:35,355 - __main__ - INFO - Удален файл: temp_photos/20250325_083442_6794.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: temp_photos/20250325_053337_6793.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: temp_photos/20250324_214558_6792.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: temp_photos/20250324_190342_6791.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: temp_photos/20250324_160337_6790.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: photo/20250325_150007_6797.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: photo/20250325_113529_6795.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: photo/20250325_083442_6794.jpg
+2025-03-25 18:38:35,356 - __main__ - INFO - Удален файл: photo/20250325_053337_6793.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл: photo/20250324_214558_6792.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл: photo/20250324_190342_6791.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл: photo/20250324_160337_6790.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл из папки photos: 20250325_150007_6797.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл из папки photos: 20250325_113529_6795.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл из папки photos: 20250325_083442_6794.jpg
+2025-03-25 18:38:35,357 - __main__ - INFO - Удален файл из папки photos: 20250325_053337_6793.jpg
+2025-03-25 18:38:35,358 - __main__ - INFO - Удален файл из папки photos: 20250324_214558_6792.jpg
+2025-03-25 18:38:35,358 - __main__ - INFO - Удален файл из папки photos: 20250324_190342_6791.jpg
+2025-03-25 18:38:35,358 - __main__ - INFO - Удален файл из папки photos: 20250324_160337_6790.jpg
+2025-03-25 18:39:46,749 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 18:40:32,757 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 18:46:08,909 - telethon.client.updates - INFO - Got difference for channel 2366096301 updates
+2025-03-25 18:51:45,486 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:51:50,669 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:51:55,853 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:52:03,788 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:52:11,334 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:52:20,417 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:52:28,735 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 18:52:28,868 - telethon.client.updates - INFO - Got difference for channel 2228826173 updates
+2025-03-25 18:52:55,076 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 18:53:08,283 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:53:16,960 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:53:22,241 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:53:30,995 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:53:42,179 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:53:55,907 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:54:02,669 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:54:36,402 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 18:54:53,751 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:55:04,372 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:55:08,399 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:55:42,045 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:55:49,703 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 18:55:50,829 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:55:58,256 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:56:04,256 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:56:15,527 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:56:32,002 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:56:45,874 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:56:52,708 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:57:40,599 - telethon.client.updates - INFO - Got difference for channel 2187587978 updates
+2025-03-25 18:57:45,873 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:03,680 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:09,333 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:16,264 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:26,715 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:45,259 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:48,496 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:58:53,951 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:59:14,015 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:59:32,732 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 18:59:57,254 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:00:02,892 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:00:04,263 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:00:06,792 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 19:00:06,959 - telethon.client.updates - INFO - Got difference for channel 2082269611 updates
+2025-03-25 19:00:14,396 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:00:15,980 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:00:32,339 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:00:59,896 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:02,145 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:18,500 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:27,050 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:01:37,485 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:40,961 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:44,679 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:49,651 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:01:55,949 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:02:05,354 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:02:10,513 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:02:22,864 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:02:27,341 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:02:35,827 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:02:48,702 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:03:08,914 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:03:25,771 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:03:35,172 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:03:45,862 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:04:07,073 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:04:15,528 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:04:24,345 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:04:36,697 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:05:03,806 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:05:26,465 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:05:44,417 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:06:24,405 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:06:30,051 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:06:38,220 - telethon.client.updates - INFO - Got difference for channel 1808983789 updates
+2025-03-25 19:06:47,061 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:07:24,325 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:07:24,422 - telethon.client.updates - INFO - Got difference for channel 2228826173 updates
+2025-03-25 19:07:28,934 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 19:07:29,200 - telethon.client.updates - INFO - Got difference for channel 2286042406 updates
+2025-03-25 19:07:29,328 - telethon.client.updates - INFO - Got difference for channel 2181425771 updates
+2025-03-25 19:07:29,519 - telethon.client.updates - INFO - Got difference for channel 2162619703 updates
+2025-03-25 19:07:29,607 - telethon.client.updates - INFO - Got difference for channel 2284948697 updates
+2025-03-25 19:07:38,001 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:07:40,109 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:07:53,810 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:08:04,807 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:08:16,262 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:08:36,175 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:09:07,449 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:09:17,761 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:09:31,723 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:09:44,474 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:09:44,577 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:09:52,352 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:10:05,325 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:10:11,813 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:10:28,250 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:10:32,948 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:10:52,534 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:11:03,906 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:11:12,065 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:11:41,312 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:12:05,702 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:12:32,522 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:12:51,938 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:13:24,435 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:13:33,718 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:13:36,969 - telethon.client.updates - INFO - Got difference for channel 2366096301 updates
+2025-03-25 19:13:41,884 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:13:58,259 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:13:58,384 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:14:08,200 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:14:26,653 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:14:39,019 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:14:55,490 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:15:07,802 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:15:12,000 - telethon.client.updates - INFO - Got difference for channel 2385118180 updates
+2025-03-25 19:15:50,747 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 19:16:16,036 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 19:16:16,146 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:16:16,269 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:16:16,396 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:16:29,108 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:16:42,731 - telethon.network.mtprotosender - INFO - Type f2fe7e4a not found, remaining data b'J~\xfe\xf2\x02\x00\x00\x00\xfb\x03\x00\x00:u\xb0Q\rDesk Calendar\x00\x00\x13DeskCalendar-126476\x0c\xee\x01\x00\x05S2tyz\x00\x00\x15\xc4\xb5\x1c\x03\x00\x00\x00\x13\x90\xd99\x0bLeather Top\xd8\xc4\xd4\x8f\x01\x00\x00\x00gc\x00\x00\xf7K\xa0H6\xc9\xaf-\xbb\xa2J\xb3\x15\x00g\xe2\xd6\xea)y\\\x81\xbf\x96"5%a\xc6~\xf1g\xc4\xdf\x00\x00"&\x94g\x17application/x-tgsticker\x8dM\x00\x00\x00\x00\x00\x00\x15\xc4\xb5\x1c\x02\x00\x00\x00AM!\xd8\x01j\x00\x00\x81)\x02\xb2\x00\xdctIJ\x03VO\x04bmJM\x03TP\x08nRL\\TWk\x81B\x87^\x87^K\x81}\x82F\x04JCT\x88\\\x94j\xa2i\xbcH\t\x88\x00M\x08\x86P\x91F\t\x9dG\t\x8dK\x9e\x83\xa9C\x8aF\x88i\xa2m\xb3I\xa5\xac\xae\xb4\x88\x87\xb3\x85\xbf\x85\x80\x80\x92i\xa5l\xb1J\xa8\xb0\xad\xb4\x92\x8d\xbdJ\x89\x01\xa0\x8f\x94F\x87\x01J\x89\x03O\x87\t^\x8f\x07m\x97\x05D\x93E\xad]\xad\x00\x00`\x8e\xc7u\x01m\x00\x00\x80\x00\x00\x00\x80\x00\x00\x00.\x1a\x00\x00\x02\x00\x00\x00\x15\xc4\xb5\x1c\x03\x00\x00\x00\\\xc17l\x00\x02\x00\x00\x00\x02\x00\x00\x99\x98\x14\xfd\x00\x00\x00\x00\x04\xf0\x9f\x97\x93\x00\x00\x00i\xa2\xe7\x9d\x1b\x00\x00\x00\xc06O\x13\xe9\xfa\x12\xc8\x180n\xbah\x00Y\x15\x13AnimatedSticker.tgs\x0f\x00\x00\x00\x19\xff\xac\x13\rGolden Scarab\x00\x00\xd8\xc4\xd4\x8f\x01\x00\x00\x00\x17\x00\x00\x00\xcc\x88\x89O!\x01b\x9b\x14\x08\xeen\x15\x00g\xe2\xd6\xea\x03\xd1cd\xbf\x0c\x16\xcfE\xe7\xffzfH\x1d\xba\x00\x00d\x8cqg\x17application/x-tgsticker\xcd\x05\x00\x00\x00\x00\x00\x00\x15\xc4\xb5\x1c\x02\x00\x00\x00AM!\xd8\x01j\x00\x00\x94\x17\x07\xad\x04\xdcK\x08AO\x07O\tK\x06X\x06\x84G\xa1t\xa7s\x89\x82\x9c\x9d\xa3\xa4\x8e\x8e\xa9\xa0\xb1\xb2\x85\x89\x82\x8c\x01\x82\x8d\x08\x80\x8a\x80\x87\x02I\x87\x03\xf3\xcc\x1b\x06\xad\x04\xdcC\x80E\x82G\x80HJEH\x07DJ\x01\x80RDI\t\x81K\x00\x83G\x88\x03H\x06\x88\x04H\x06\x88B\xa9\xb6\xad\x86\x05\x9e\x89\x02I\x96\x00K\t\x97\x02\xf3\xcc\x19\x07\x8e\x02\xdcYFz\x89H\x02BcP\x9a|\xa9F\x06\xa9P\x89\x00E\x8c\x00\x9c\x8a\x8b\x98\xa2\x80\xa7X\x86v\x81G\t\x81\x00\x00\x00`\x8e\xc7u\x01m\x00\x00\x80\x00\x00\x00\x80\x00\x00\x00B\x0c\x00\x00\x01\x00\x00\x00\x15\xc4\xb5\x1c\x03\x00\x00\x00\\\xc17l\x00\x02\x00\x00\x00\x02\x00\x00\x99\x98\x14\xfd\x02\x00\x00\x00\x04\xf0\x9f\x8e\x81\x00\x00\x00i\xa2\xe7\x9dd\x00\x00\x00\xbf\x8c\x90\x04\xd6MjY \xde\xc5\xach\x00Y\x15\x13AnimatedSticker.tgs\x05\x00\x00\x00b\x17\'\x94\x0bLight Olived\xaf\xc2\x00E~\x88\x00\x04LY\x00\xbc\xeb\xf5\x00\x14\x00\x00\x00/\xbd\x04\x00\x83\xb5\x05\x00\xc45\x1c\x00\x01\x00\x00\x00\xe9\xd6\xe2g\x9f\x90"S\xb2(u\xfa\x89\x03Z\x99\xb5OGe\xb7\xfd\x99\x96\x9dm=\x02'
+2025-03-25 19:16:43,323 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:16:43,463 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:16:53,451 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:17:06,251 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:17:07,838 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:17:19,174 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:17:29,906 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:01,576 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:18:04,365 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:18:11,987 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:17,445 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:21,782 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:37,693 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:46,028 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:51,022 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:54,317 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:18:59,804 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:19:04,745 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:19:16,916 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:19:39,982 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:19:40,128 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:19:46,006 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:19:56,125 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:20:13,177 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:20:21,681 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:20:46,108 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:21:04,756 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:21:14,692 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:18,970 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:23,851 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:32,312 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:38,656 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:46,186 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:21:46,349 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:21:58,716 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:22:04,292 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:22:29,428 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 19:22:30,089 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:22:46,062 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:22:58,854 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:22:58,964 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:23:05,707 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:23:05,921 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:23:24,165 - telethon.client.updates - INFO - Got difference for channel 2295379510 updates
+2025-03-25 19:23:46,196 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:23:56,301 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:24:09,635 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:24:14,168 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:24:16,279 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:24:42,146 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:24:54,244 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:03,487 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:07,548 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:25:12,184 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:18,943 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:25:24,881 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:35,120 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:44,344 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:25:46,242 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:25:46,406 - telethon.client.updates - INFO - Got difference for channel 2189875640 updates
+2025-03-25 19:26:21,672 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:26:22,088 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:26:45,182 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:26:53,859 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:27:15,851 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:27:25,813 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:27:34,794 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:27:44,603 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:27:59,365 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:27:59,443 - telethon.client.updates - INFO - Got difference for channel 2366096301 updates
+2025-03-25 19:28:01,650 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:28:07,137 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:28:13,072 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:28:18,665 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:28:18,830 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:28:24,613 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:28:34,208 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:28:40,104 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:29:05,714 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:29:05,812 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:29:11,260 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:29:17,112 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:29:25,974 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:29:26,077 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:29:39,100 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:30:01,283 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:30:07,761 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:30:13,118 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:30:44,948 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:31:04,782 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:31:08,517 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:31:30,525 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:31:39,163 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:31:39,315 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:31:42,847 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:32:07,841 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:32:10,465 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:32:13,036 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:32:22,633 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:32:26,763 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:32:37,310 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 19:32:42,436 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:03,272 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:06,459 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:33:23,547 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:31,910 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:33:32,491 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:42,578 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:51,288 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:33:51,356 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 19:34:00,843 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:34:13,107 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:34:13,238 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:34:58,308 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:35:05,398 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:35:17,073 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:35:30,688 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:35:42,574 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:35:45,684 - telethon.client.updates - INFO - Got difference for channel 2177160607 updates
+2025-03-25 19:35:52,102 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:35:52,216 - telethon.client.updates - INFO - Got difference for channel 1644665793 updates
+2025-03-25 19:36:05,766 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:36:05,874 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:36:05,959 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:36:17,234 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:36:35,359 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:36:53,382 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:37:05,773 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:37:11,132 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:37:24,045 - telethon.client.updates - INFO - Got difference for channel 1983115399 updates
+2025-03-25 19:37:24,770 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:37:29,544 - telethon.client.updates - INFO - Got difference for account updates
+2025-03-25 19:37:43,990 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:38:17,575 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:38:35,394 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:38:39,618 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:39:00,164 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:39:06,217 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:39:17,774 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:39:28,290 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:39:49,502 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:40:04,621 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:40:10,992 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:40:46,253 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:40:53,455 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:41:04,981 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:41:36,391 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:41:48,961 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:42:05,853 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:42:13,699 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:42:26,820 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:42:33,764 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:42:56,757 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 19:43:20,104 - telethon.client.updates - INFO - Got difference for channel 2366096301 updates
+2025-03-25 19:43:24,002 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:43:25,607 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:43:28,783 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:43:39,389 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:43:42,747 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 19:43:43,083 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:43:46,588 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:44:07,401 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:44:16,126 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:44:30,684 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:44:44,386 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:45:05,868 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:45:06,030 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:45:13,316 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:45:31,008 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:46:04,500 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:46:08,776 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:46:55,154 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:47:01,581 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:47:08,194 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:47:49,423 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:47:50,902 - telethon.client.updates - INFO - Got difference for channel 2099636264 updates
+2025-03-25 19:47:57,109 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:04,801 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:48:08,098 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:08,442 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:48:20,141 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:29,128 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 19:48:29,267 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:34,654 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:40,490 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:48:58,954 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:49:07,656 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:49:17,175 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:49:17,294 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:49:26,502 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:49:36,827 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:49:51,179 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:12,235 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:50:12,345 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:28,556 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:33,033 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:39,150 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:55,689 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:50:57,871 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:51:02,783 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:51:05,836 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:51:09,676 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:51:28,445 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:51:43,956 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 19:51:48,722 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:52:30,126 - telethon.client.updates - INFO - Got difference for channel 1571754219 updates
+2025-03-25 19:52:30,306 - telethon.client.updates - INFO - Got difference for channel 1706364541 updates
+2025-03-25 19:52:37,109 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:52:43,881 - telethon.client.updates - INFO - Got difference for channel 2464551247 updates
+2025-03-25 19:52:56,213 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:53:09,866 - telethon.client.updates - INFO - Got difference for channel 2045504055 updates
+2025-03-25 19:53:19,140 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:53:24,779 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:53:24,919 - telethon.client.updates - INFO - Got difference for channel 2295379510 updates
+2025-03-25 19:53:29,325 - telethon.client.updates - INFO - Got difference for channel 1617506819 updates
+2025-03-25 19:54:11,749 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 560, in _request
+    await resp.start(conn)
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client_reqrep.py", line 894, in start
+    with self._timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 19:54:45,668 - telethon.network.mtprotosender - INFO - Closing current connection to begin reconnect...
+2025-03-25 19:54:45,669 - telethon.network.mtprotosender - INFO - Connecting to 149.154.167.51:443/TcpFull...
+2025-03-25 19:54:55,679 - telethon.network.mtprotosender - WARNING - Attempt 1 at connecting failed: TimeoutError: 
+2025-03-25 19:54:57,747 - aiogram.dispatcher.dispatcher - ERROR - Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 382, in start_polling
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/bot.py", line 110, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/base.py", line 236, in request
+    return await api.make_request(await self.get_session(), self.server, self.__token, method, data, files,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 1141, in __aenter__
+    self._resp = await self._coro
+                 ^^^^^^^^^^^^^^^^
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/client.py", line 467, in _request
+    with timer:
+  File "/home/derxywat/Загрузки/nwvot/venv/lib64/python3.11/site-packages/aiohttp/helpers.py", line 721, in __exit__
+    raise asyncio.TimeoutError from None
+TimeoutError
+2025-03-25 19:55:05,276 - telethon.network.mtprotosender - INFO - Connection to 149.154.167.51:443/TcpFull complete!
+2025-03-25 19:55:19,300 - __main__ - INFO - Бот остановлен пользователем
+2025-03-25 19:55:19,300 - aiogram.dispatcher.dispatcher - WARNING - Polling is stopped.
+2025-03-25 19:55:19,302 - telethon.network.mtprotosender - INFO - Disconnecting from 149.154.167.51:443/TcpFull...
+2025-03-25 19:55:19,302 - telethon.network.mtprotosender - INFO - Disconnection from 149.154.167.51:443/TcpFull complete!
+2025-03-25 19:55:19,309 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2025-03-25 19:55:19,309 - __main__ - INFO - Бот остановлен
+2025-03-25 19:55:19,360 - aiogram.dispatcher.dispatcher - INFO - Stop polling...

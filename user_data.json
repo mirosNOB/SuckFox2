@@ -1,0 +1,1 @@
+{"users": {"7241965595": {"folders": {"nw": ["@github"]}, "prompts": {"nw": "всегда пиши время на момент анализа  Проанализируй посты и составь отчет"}, "ai_settings": {"provider_index": 0, "model": "gpt-4o", "web_search_enabled": true, "web_search_results": 10}}}}
