@@ -34,11 +34,17 @@ from ai_service import (
     user_models,
     MONICA_MODELS,
     OPENROUTER_MODELS,
-    try_openrouter_request_with_images
+    try_openrouter_request_with_images,
+    load_models_from_user_data,
+    check_monica_credits,
+    check_openrouter_credits
 )
 import aiohttp
 from typing import List, Optional, Tuple
 import zlib
+import trafilatura
+from bs4 import BeautifulSoup
+import cloudscraper
 
 # Настраиваем логирование
 logging.basicConfig(
@@ -56,6 +62,9 @@ logger.info("Загружаем .env файл...")
 load_dotenv()
 token = os.getenv('BOT_TOKEN')
 logger.info(f"Токен: {token}")
+
+# Константы
+DEFAULT_PROMPT = "Проанализируй предоставленные данные и составь краткий отчет с ключевыми моментами, трендами и рекомендациями"
 
 # Секретный код для самостоятельного получения прав администратора
 ADMIN_SECRET_CODE = "super_secure_admin_code"
@@ -309,7 +318,7 @@ def generate_txt_report(content: str, folder: str) -> str:
     return filename
 
 def generate_pdf_report(content: str, folder: str) -> str:
-    """Генерирует отчет в формате PDF"""
+    """Генерирует отчет в формате PDF с поддержкой Markdown"""
     current_time = datetime.now().strftime("%d%m")
     
     # Создаем директорию analysis если ее нет
@@ -326,6 +335,8 @@ def generate_pdf_report(content: str, folder: str) -> str:
     # Добавляем шрифт с поддержкой русского
     font_path = get_font_path()
     pdf.add_font('DejaVu', '', font_path, uni=True)
+    pdf.add_font('DejaVu', 'B', font_path, uni=True)  # Добавляем жирный шрифт
+    pdf.add_font('DejaVu', 'I', font_path, uni=True)  # Добавляем курсивный шрифт
     pdf.set_font('DejaVu', '', 12)
     
     # Настраиваем отступы
@@ -335,31 +346,100 @@ def generate_pdf_report(content: str, folder: str) -> str:
     
     # Пишем заголовок
     pdf.set_font_size(16)
+    pdf.set_font('DejaVu', 'B')
     pdf.cell(0, 10, f'Анализ папки: {folder}', 0, 1, 'L')
     pdf.ln(10)
     
     # Возвращаемся к обычному размеру шрифта
     pdf.set_font_size(12)
+    pdf.set_font('DejaVu', '')
     
-    # Разбиваем контент на строки и обрабатываем форматирование
+    # Преобразуем Markdown в структурированный текст
+    in_code_block = False
+    in_list_item = False
+    list_level = 0
+    
+    # Разбиваем контент на строки и обрабатываем форматирование Markdown
     for line in content.split('\n'):
-        if not line.strip():  # Пропускаем пустые строки
+        line = line.rstrip()
+        
+        # Пропускаем пустые строки или добавляем отступ
+        if not line:
             pdf.ln(5)
             continue
         
-        if line.strip().startswith('###'):  # H3 заголовок
-            pdf.set_font_size(14)
-            pdf.cell(0, 10, line.strip().replace('###', '').strip(), 0, 1, 'L')
+        # Обработка заголовков Markdown
+        if line.startswith('#'):
+            # Подсчитываем количество символов # для определения уровня заголовка
+            level = 0
+            for char in line:
+                if char == '#':
+                    level += 1
+                else:
+                    break
+            
+            header_text = line[level:].strip()
+            
+            pdf.set_font('DejaVu', 'B')
+            
+            # Настраиваем размер шрифта в зависимости от уровня заголовка
+            if level == 1:
+                pdf.set_font_size(16)
+            elif level == 2:
+                pdf.set_font_size(14)
+            elif level == 3:
+                pdf.set_font_size(13)
+            else:
+                pdf.set_font_size(12)
+                
+            pdf.cell(0, 10, header_text, 0, 1, 'L')
+            pdf.ln(5)
+            
+            # Возвращаемся к обычному шрифту
+            pdf.set_font('DejaVu', '')
             pdf.set_font_size(12)
-            pdf.ln(5)
-        elif line.strip().startswith('####'):  # H4 заголовок
-            pdf.set_font_size(13)
-            pdf.cell(0, 10, line.strip().replace('####', '').strip(), 0, 1, 'L')
-            pdf.set_font_size(12)
-            pdf.ln(5)
-        else:  # Обычный текст
-            pdf.multi_cell(0, 10, line.strip())
-            pdf.ln(5)
+            continue
+        
+        # Обработка списков
+        if line.strip().startswith('* ') or line.strip().startswith('- '):
+            indent = 10
+            text = line.strip()[2:]  # Убираем символ списка
+            pdf.set_x(pdf.get_x() + indent)
+            pdf.cell(5, 10, "•", 0, 0, 'L')
+            pdf.multi_cell(0, 10, text)
+            continue
+            
+        # Обработка нумерованных списков
+        numbered_list_match = re.match(r'^\s*(\d+)\.\s+(.+)$', line)
+        if numbered_list_match:
+            number, text = numbered_list_match.groups()
+            indent = 10
+            pdf.set_x(pdf.get_x() + indent)
+            pdf.cell(10, 10, f"{number}.", 0, 0, 'L')
+            pdf.multi_cell(0, 10, text)
+            continue
+            
+        # Обработка цитат
+        if line.startswith('>'):
+            quote_text = line[1:].strip()
+            pdf.set_font('DejaVu', 'I')
+            pdf.set_text_color(100, 100, 100)  # Серый цвет для цитат
+            pdf.multi_cell(0, 10, quote_text)
+            pdf.set_font('DejaVu', '')
+            pdf.set_text_color(0, 0, 0)  # Возвращаем черный цвет
+            continue
+            
+        # Обработка горизонтальных линий
+        if line.strip() == '---' or line.strip() == '***' or line.strip() == '___':
+            pdf.line(pdf.l_margin, pdf.get_y(), pdf.w - pdf.r_margin, pdf.get_y())
+            pdf.ln(10)
+            continue
+        
+        # Базовая обработка жирного и курсивного текста (упрощенная)
+        # В реальности требуется более сложная парсинг-логика для корректной обработки
+        
+        # Обычный текст
+        pdf.multi_cell(0, 10, line.strip())
     
     # Сохраняем PDF
     try:
@@ -589,22 +669,33 @@ async def create_folder(message: types.Message):
 
 @dp.message_handler(state=BotStates.waiting_for_folder_name)
 async def process_folder_name(message: types.Message, state: FSMContext):
-    folder_name = message.text
-    await state.update_data(current_folder=folder_name)
-    user_data.get_user_data(message.from_user.id)['folders'][folder_name] = []
-    user_data.get_user_data(message.from_user.id)['prompts'][folder_name] = "Проанализируй посты и составь краткий отчет"
+    if not message.text or message.text.startswith('/'):
+        await message.answer("Неверное имя папки. Попробуй еще раз")
+        return
+        
+    await state.update_data(current_folder=message.text)
+    user_data.get_user_data(message.from_user.id)['folders'][message.text] = []
+    user_data.get_user_data(message.from_user.id)['prompts'][message.text] = DEFAULT_PROMPT
     user_data.save()
     
     await BotStates.waiting_for_channels.set()
     await message.answer(
-        "Отправь ссылки на каналы для этой папки.\n"
-        "Каждую ссылку с новой строки.\n"
-        "Когда закончишь, напиши 'готово'"
+        "Отправьте ссылки на источники для этой папки:\n"
+        "• Для Telegram-каналов используйте формат @username\n"
+        "• Для веб-сайтов используйте формат https://website.com\n"
+        "Каждую ссылку указывайте с новой строки.\n"
+        "Когда закончите, напишите 'готово'"
     )
 
 def is_valid_channel(channel_link: str) -> bool:
-    """Проверяем, что ссылка похожа на канал"""
     return bool(re.match(r'^@[\w\d_]+$', channel_link))
+
+def is_valid_source(source: str) -> dict:
+    if re.match(r'^@[\w\d_]+$', source):
+        return {"valid": True, "type": "channel"}
+    elif re.match(r'^https?://[\w\d-]+(\.[\w\d-]+)+(/.*)?$', source):
+        return {"valid": True, "type": "website"}
+    return {"valid": False, "type": None}
 
 @dp.message_handler(state=BotStates.waiting_for_channels)
 async def process_channels(message: types.Message, state: FSMContext):
@@ -616,19 +707,34 @@ async def process_channels(message: types.Message, state: FSMContext):
     data = await state.get_data()
     folder_name = data['current_folder']
     
-    channels = [ch.strip() for ch in message.text.split('\n')]
-    valid_channels = []
+    sources = [src.strip() for src in message.text.split('\n')]
+    valid_sources = []
     
-    for channel in channels:
-        if not is_valid_channel(channel):
-            await message.answer(f"❌ Канал {channel} не похож на правильную ссылку. Используй формат @username")
+    for source in sources:
+        source_info = is_valid_source(source)
+        if not source_info["valid"]:
+            if source.startswith("http"):
+                await message.answer(f"❌ URL {source} не похож на правильную ссылку. Используйте формат https://website.com")
+            else:
+                await message.answer(f"❌ Источник {source} не распознан. Используйте формат @username для Telegram-каналов или https://website.com для сайтов")
             continue
-        valid_channels.append(channel)
+        valid_sources.append(source)
     
-    if valid_channels:
-        user_data.get_user_data(message.from_user.id)['folders'][folder_name].extend(valid_channels)
+    if valid_sources:
+        user_data.get_user_data(message.from_user.id)['folders'][folder_name].extend(valid_sources)
         user_data.save()
-        await message.answer(f"✅ Каналы добавлены в папку {folder_name}")
+        
+        # Классифицируем источники по типам
+        channels = [s for s in valid_sources if s.startswith('@')]
+        websites = [s for s in valid_sources if s.startswith('http')]
+        
+        response = "✅ Добавлено:"
+        if channels:
+            response += f"\n- {len(channels)} каналов" + ("" if len(channels) == 1 else "")
+        if websites:
+            response += f"\n- {len(websites)} сайтов" + ("" if len(websites) == 1 else "")
+        
+        await message.answer(f"{response} в папку {folder_name}")
 
 @dp.message_handler(lambda message: message.text == "📋 Список папок")
 @require_access
@@ -656,29 +762,46 @@ async def cmd_list_folders(message: types.Message, state: FSMContext = None):
 @dp.callback_query_handler(lambda c: c.data.startswith('edit_folder_'))
 async def edit_folder_menu(callback_query: types.CallbackQuery):
     folder = callback_query.data.replace('edit_folder_', '')
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     
-    # Добавляем кнопки для каждого канала
-    channels = user_data.get_user_data(callback_query.from_user.id)['folders'][folder]
-    for channel in channels:
+    # Добавляем кнопки для каждого источника
+    sources = user_data.get_user_data(callback_query.from_user.id)['folders'][folder]
+    for source in sources:
+        # Определяем тип источника по формату
+        icon = "📱 " if source.startswith('@') else "🌐 "
         keyboard.add(
             types.InlineKeyboardButton(
-                f"❌ {channel}",
-                callback_data=f"remove_channel_{folder}_{channel}"  # Не убираем @ из канала
+                f"❌ {icon}{source}",
+                callback_data=f"remove_channel_{folder}_{source}"
             )
         )
     
     # Добавляем основные кнопки управления
     keyboard.add(
-        types.InlineKeyboardButton("➕ Добавить каналы", callback_data=f"add_channels_{folder}"),
+        types.InlineKeyboardButton("➕ Добавить источники", callback_data=f"add_channels_{folder}"),
         types.InlineKeyboardButton("❌ Удалить папку", callback_data=f"delete_folder_{folder}")
     )
     keyboard.add(types.InlineKeyboardButton("🔙 Назад", callback_data="back_to_folders"))
     
+    # Разделяем источники по типам для отображения
+    channels = [s for s in sources if s.startswith('@')]
+    websites = [s for s in sources if s.startswith('http')]
+    
+    sources_text = ""
+    if channels:
+        sources_text += "📱 Telegram-каналы:\n" + "\n".join(f"- {channel}" for channel in channels)
+    
+    if websites:
+        if channels:  # Добавляем разделитель, если есть каналы
+            sources_text += "\n\n"
+        sources_text += "🌐 Веб-сайты:\n" + "\n".join(f"- {website}" for website in websites)
+    
+    if not sources_text:
+        sources_text = "В этой папке еще нет источников."
+    
     await callback_query.message.edit_text(
         f"Редактирование папки {folder}:\n"
-        f"Нажми на канал чтобы удалить его:\n" + 
-        "\n".join(f"- {channel}" for channel in channels),
+        f"Нажмите на источник, чтобы удалить его:\n\n{sources_text}",
         reply_markup=keyboard
     )
 
@@ -689,9 +812,11 @@ async def add_channels_start(callback_query: types.CallbackQuery, state: FSMCont
     await BotStates.waiting_for_channels.set()
     
     await callback_query.message.answer(
-        "Отправь ссылки на каналы для добавления.\n"
-        "Каждую ссылку с новой строки.\n"
-        "Когда закончишь, напиши 'готово'"
+        "Отправьте ссылки на источники для добавления:\n"
+        "• Для Telegram-каналов используйте формат @username\n"
+        "• Для веб-сайтов используйте формат https://website.com\n"
+        "Каждую ссылку указывайте с новой строки.\n"
+        "Когда закончите, напишите 'готово'"
     )
 
 @dp.callback_query_handler(lambda c: c.data.startswith('delete_folder_'))
@@ -747,13 +872,56 @@ async def process_folder_selection(message: types.Message, state: FSMContext):
         await message.answer("Такой папки нет. Попробуй еще раз")
         return
 
+    # Получаем текущую модель пользователя
+    user_id = message.from_user.id
+    current_model = get_user_model(user_id)
+    
     await state.update_data(selected_folder=message.text)
     await BotStates.waiting_for_prompt.set()
-    await message.answer(
+    
+    # Подготавливаем основное сообщение о текущем промпте
+    prompt_message = (
         f"Текущий промпт для папки {message.text}:\n"
         f"{user_data.get_user_data(message.from_user.id)['prompts'][message.text]}\n\n"
         "Введи новый промпт:"
     )
+    
+    # Отправляем основное сообщение о промпте
+    await message.answer(prompt_message)
+    
+    # Добавляем справочник для режима Thinking, если пользователь использует модели Claude 3.7 Sonnet
+    if "claude-3-7-sonnet" in current_model:
+        thinking_guide = (
+            "📘 <b>Справочник по режиму Thinking для Claude 3.7</b>\n\n"
+            "Модель <b>Claude 3.7 Sonnet (Thinking)</b> поддерживает специальный режим расширенного мышления, "
+            "который позволяет модели показывать ход своих рассуждений. Вы можете использовать это преимущество, "
+            "добавив специальные инструкции в промпт:\n\n"
+            
+            "<b>Основные возможности:</b>\n"
+            "• <b>Многоуровневый анализ</b> - модель может проводить сложные рассуждения шаг за шагом\n"
+            "• <b>Углубленное исследование</b> - исследует темы с разных перспектив\n"
+            "• <b>Прозрачное принятие решений</b> - объясняет почему выбран тот или иной подход\n"
+            "• <b>Структурированные выводы</b> - организует информацию логично и систематически\n\n"
+            
+            "<b>Примеры инструкций для активации режима Thinking:</b>\n\n"
+            
+            "1. <i>\"Перед тем как дать окончательный ответ, проведи расширенный анализ. "
+            "Тщательно проработай каждую точку зрения, рассмотри аргументы за и против, "
+            "и только потом сформулируй вывод.\"</i>\n\n"
+            
+            "2. <i>\"Используй прием 'рассуждение вслух'. Разбей анализ на четкие этапы: 1) Основные факты, "
+            "2) Возможные интерпретации, 3) Критическая оценка каждой интерпретации, "
+            "4) Окончательные выводы и рекомендации.\"</i>\n\n"
+            
+            "3. <i>\"Для особо важного анализа новостей применяй многоступенчатый подход: сначала выдели ключевые темы, "
+            "затем проведи разбор каждой темы по схеме: 'Суть новости → Политический контекст → "
+            "Возможные последствия → Рекомендации для коммуникации'.\"</i>\n\n"
+            
+            "<b>Источник:</b> <a href='https://www.anthropic.com/news/visible-extended-thinking'>Anthropic: Visible Extended Thinking</a>"
+        )
+        
+        # Отправляем справочник после основного сообщения
+        await message.answer(thinking_guide, parse_mode="HTML", disable_web_page_preview=True)
 
 @dp.message_handler(state=BotStates.waiting_for_prompt)
 async def process_new_prompt(message: types.Message, state: FSMContext):
@@ -783,26 +951,63 @@ async def process_new_prompt(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text == "⚙️ Настройка ИИ")
 async def ai_settings(message: types.Message, state: FSMContext = None, **kwargs):
-    # Получаем текущую модель пользователя
-    current_model = get_user_model(message.from_user.id)
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+    
+    current_model = get_user_model(user_id)
+    
     all_models = get_available_models()
     model_info = all_models[current_model]
     
-    # Определяем сервис модели
     service = "Monica AI"
     if current_model in OPENROUTER_MODELS:
         service = "OpenRouter"
     
-    # Получаем информацию о настройках веб-поиска
-    user_settings = user_data.get_user_data(message.from_user.id)
+    user_settings = user_data.get_user_data(user_id)
     web_search_enabled = user_settings['ai_settings'].get('web_search_enabled', False)
     web_search_results = user_settings['ai_settings'].get('web_search_results', 3)
     
-    # Создаем клавиатуру
+    photos_enabled = user_settings['ai_settings'].get('photos_enabled', True)
+    
+    if service == "Monica AI" and web_search_enabled:
+        web_search_enabled = False
+        user_settings['ai_settings']['web_search_enabled'] = False
+        user_data.save()
+    
+    # Получаем информацию о кредитах в зависимости от сервиса
+    credits_info = "🔄 Загрузка информации о кредитах..."
+    status_message = await message.answer("🔄 Получение информации о балансе кредитов...")
+    
+    try:
+        if service == "Monica AI":
+            credits_result = await check_monica_credits()
+            if credits_result["success"]:
+                if "info" in credits_result:
+                    credits_info = f"ℹ️ {credits_result['info']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+                else:
+                    credits_info = (
+                        f"💰 Баланс кредитов Monica AI:\n"
+                        f"  • Всего: {credits_result['total']}\n"
+                        f"  • Использовано: {credits_result['used']}\n"
+                        f"  • Осталось: {credits_result['remaining']}\n"
+                        f"  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+                    )
+            else:
+                credits_info = f"❌ Не удалось получить информацию о кредитах Monica AI: {credits_result.get('error', 'Неизвестная ошибка')}"
+        else:  # OpenRouter
+            credits_result = await check_openrouter_credits()
+            if credits_result["success"]:
+                credits_info = f"💰 Осталось кредитов: ${credits_result['remaining']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+            else:
+                credits_info = f"❌ Не удалось получить информацию о кредитах OpenRouter: {credits_result.get('error', 'Неизвестная ошибка')}"
+    except Exception as e:
+        credits_info = f"❌ Ошибка при получении информации о кредитах: {str(e)}"
+    
+    await status_message.delete()
+    
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(types.InlineKeyboardButton("📝 Выбрать модель", callback_data="choose_model"))
     
-    # Добавляем кнопку настройки веб-поиска только если выбрана модель OpenRouter
     if service == "OpenRouter":
         web_search_status = "✅ Включен" if web_search_enabled else "❌ Выключен"
         keyboard.add(types.InlineKeyboardButton(
@@ -815,20 +1020,26 @@ async def ai_settings(message: types.Message, state: FSMContext = None, **kwargs
                 callback_data="change_web_results"
             ))
     
-    # Формируем информацию о веб-поиске
+    photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
+    keyboard.add(types.InlineKeyboardButton(
+        f"📷 Фотографии: {photos_status}",
+        callback_data="toggle_photos"
+    ))
+    
     web_search_info = ""
     if service == "OpenRouter":
         web_search_info = f"\n🔍 Веб-поиск: {'Включен' if web_search_enabled else 'Выключен'}"
         if web_search_enabled:
-            web_search_info += f"\n📊 Результатов: {web_search_results} (≈${web_search_results*0.004:.3f} за запрос)"
-            web_search_info += f"\n💰 <b>Цена = выдуманный кредит, который не исчерпывается, но у него есть перезарядка</b>"
+            web_search_info += f"\n📊 Результатов: {web_search_results}"
     
     await message.answer(
         f"📊 Текущие настройки ИИ:\n\n"
         f"🔹 Модель: {model_info['name']}\n"
         f"🔧 Сервис: {service}\n"
         f"📝 Описание: {model_info['description']}\n"
-        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n\n"
+        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n"
+        f"📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}\n\n"
+        f"{credits_info}\n\n"
         f"ℹ️ Выберите, что хотите настроить:",
         reply_markup=keyboard,
         parse_mode="HTML"
@@ -877,6 +1088,14 @@ async def show_models(callback_query: types.CallbackQuery, state: FSMContext = N
             )
         )
     
+    # Добавляем кнопку справки о режиме Thinking
+    keyboard.add(
+        types.InlineKeyboardButton(
+            "ℹ️ Справка о режиме Thinking",
+            callback_data="show_thinking_guide"
+        )
+    )
+    
     keyboard.add(types.InlineKeyboardButton("🔙 Назад", callback_data="back_to_settings"))
     
     await callback_query.message.edit_text(
@@ -886,12 +1105,25 @@ async def show_models(callback_query: types.CallbackQuery, state: FSMContext = N
     )
 
 @dp.callback_query_handler(lambda c: c.data.startswith("select_model_"))
-async def process_model_selection(callback_query: types.CallbackQuery, state: FSMContext = None):
+async def process_model_selection(callback_query: types.CallbackQuery, state: FSMContext = None, photos_enabled=None):
+    # Получаем ID пользователя для отладки
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: process_model_selection вызван с user_id={user_id}, chat_id={chat_id}")
+    
     # Получаем выбранную модель из callback_data
     selected_model = callback_query.data.replace("select_model_", "")
     
     # Обновляем модель пользователя
-    user_models[callback_query.from_user.id] = selected_model
+    user_models[user_id] = selected_model
+    
+    # Обновляем модель в настройках пользователя и сохраняем в файл
+    user_settings = user_data.get_user_data(user_id)
+    user_settings['ai_settings']['model'] = selected_model
+    user_data.save()  # Сохраняем изменения в файл
+    
+    logger.warning(f"DEBUG: Модель пользователя {user_id} изменена на {selected_model}")
+    
     all_models = get_available_models()
     model_info = all_models[selected_model]
     
@@ -904,6 +1136,21 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
     user_settings = user_data.get_user_data(callback_query.from_user.id)
     web_search_enabled = user_settings['ai_settings'].get('web_search_enabled', False)
     web_search_results = user_settings['ai_settings'].get('web_search_results', 3)
+    
+    if photos_enabled is None:
+        photos_enabled = user_settings.get('ai_settings', {}).get('photos_enabled', True)
+    
+    # Получаем информацию о кредитах, если используется OpenRouter
+    credits_info = ""
+    if service == "OpenRouter":
+        try:
+            credits_result = await check_openrouter_credits()
+            if credits_result["success"]:
+                credits_info = f"\n\n💰 Осталось кредитов: ${credits_result['remaining']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+            else:
+                credits_info = f"\n\n❌ Не удалось получить информацию о кредитах: {credits_result.get('error', 'Неизвестная ошибка')}"
+        except Exception as e:
+            credits_info = f"\n\n❌ Ошибка при получении информации о кредитах: {str(e)}"
     
     # Создаем клавиатуру
     keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -922,13 +1169,19 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
                 callback_data="change_web_results"
             ))
     
+    # Добавляем кнопку переключения фотографий
+    photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
+    keyboard.add(types.InlineKeyboardButton(
+        f"📷 Фотографии: {photos_status}",
+        callback_data="toggle_photos"
+    ))
+    
     # Формируем информацию о веб-поиске
     web_search_info = ""
     if service == "OpenRouter":
         web_search_info = f"\n🔍 Веб-поиск: {'Включен' if web_search_enabled else 'Выключен'}"
         if web_search_enabled:
-            web_search_info += f"\n📊 Результатов: {web_search_results} (≈${web_search_results*0.004:.3f} за запрос)"
-            web_search_info += f"\n💰 <b>Цена = выдуманный кредит, который не исчерпывается, но у него есть перезарядка</b>"
+            web_search_info += f"\n📊 Результатов: {web_search_results}"
     
     # Отправляем подтверждение
     await callback_query.message.edit_text(
@@ -937,7 +1190,8 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
         f"🔹 Модель: {model_info['name']}\n"
         f"🔧 Сервис: {service}\n"
         f"📝 Описание: {model_info['description']}\n"
-        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n\n"
+        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n"
+        f"📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}{credits_info}\n\n"
         f"ℹ️ Выберите, что хотите настроить:",
         reply_markup=keyboard,
         parse_mode="HTML"
@@ -947,15 +1201,57 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
 
 @dp.callback_query_handler(lambda c: c.data == "back_to_settings")
 async def back_to_settings(callback_query: types.CallbackQuery, state: FSMContext = None):
-    await ai_settings(callback_query.message, state)
+    # Проверяем состояние пользователя перед возвратом к настройкам
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: back_to_settings вызван с user_id={user_id}, chat_id={chat_id}")
+    
+    current_model = get_user_model(user_id)
+    user_settings = user_data.get_user_data(user_id)
+    web_search_enabled = user_settings['ai_settings'].get('web_search_enabled', False)
+    
+    # Если веб-поиск включен, но модель не из OpenRouter
+    if web_search_enabled and current_model not in OPENROUTER_MODELS:
+        # Переключаем на совместимую модель OpenRouter
+        new_model = "anthropic/claude-3-7-sonnet"
+        user_models[user_id] = new_model
+        user_settings['ai_settings']['model'] = new_model
+        logger.info(f"При возврате в настройки модель изменена на {new_model} (была {current_model})")
+        user_data.save()
+    
+    # Создаем новое сообщение с информацией о настройках
+    message = callback_query.message
+    message.from_user = callback_query.from_user  # Исправляем ID пользователя для корректной работы
+    
+    # Возвращаемся в меню настроек
+    await ai_settings(message, state)
 
 @dp.callback_query_handler(lambda c: c.data == "toggle_web_search")
 async def toggle_web_search(callback_query: types.CallbackQuery, state: FSMContext = None):
-    user_settings = user_data.get_user_data(callback_query.from_user.id)
+    # Получаем текущую модель и сохраняем её
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: toggle_web_search вызван с user_id={user_id}, chat_id={chat_id}")
+    
+    current_model = get_user_model(user_id)
+    
+    # Проверяем, что модель относится к OpenRouter
+    if current_model not in OPENROUTER_MODELS:
+        # Если модель не из OpenRouter, то выбираем Claude 3.7 Sonnet
+        current_model = "anthropic/claude-3-7-sonnet"
+        user_models[user_id] = current_model
+        logger.info(f"Модель изменена на {current_model} при переключении веб-поиска")
+    
+    user_settings = user_data.get_user_data(user_id)
     current_status = user_settings['ai_settings'].get('web_search_enabled', False)
     
     # Переключаем статус
     user_settings['ai_settings']['web_search_enabled'] = not current_status
+    
+    # Явно сохраняем текущую модель чтобы избежать сброса
+    user_settings['ai_settings']['model'] = current_model
+    
+    # Сохраняем изменения
     user_data.save()
     
     # Получаем новый статус для отображения
@@ -966,11 +1262,33 @@ async def toggle_web_search(callback_query: types.CallbackQuery, state: FSMConte
         f"Веб-поиск {'включен' if new_status else 'выключен'}."
     )
     
+    # Создаем новое сообщение с информацией о настройках
+    message = callback_query.message
+    message.from_user = callback_query.from_user  # Исправляем ID пользователя для корректной работы
+    
     # Обновляем меню настроек
-    await ai_settings(callback_query.message, state)
+    await ai_settings(message, state)
 
 @dp.callback_query_handler(lambda c: c.data == "change_web_results")
 async def change_web_results(callback_query: types.CallbackQuery):
+    # Проверяем и устанавливаем модель OpenRouter, если текущая не подходит
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: change_web_results вызван с user_id={user_id}, chat_id={chat_id}")
+    
+    current_model = get_user_model(user_id)
+    
+    # Если модель не из OpenRouter, меняем на совместимую
+    if current_model not in OPENROUTER_MODELS:
+        new_model = "anthropic/claude-3-7-sonnet"
+        user_models[user_id] = new_model
+        
+        # Сохраняем в настройках
+        user_settings = user_data.get_user_data(user_id)
+        user_settings['ai_settings']['model'] = new_model
+        user_data.save()
+    
+    # Создаем клавиатуру выбора
     keyboard = types.InlineKeyboardMarkup(row_width=3)
     
     # Добавляем кнопки с различными вариантами количества результатов
@@ -988,31 +1306,50 @@ async def change_web_results(callback_query: types.CallbackQuery):
     
     await callback_query.message.edit_text(
         "Выберите количество результатов веб-поиска:\n\n"
-        "Больше результатов даёт более точный анализ, но повышает стоимость запроса.\n"
-        "Стоимость: ~$0.004 за результат.\n\n"
-        "<b>💰 Цена = выдуманный кредит, который не исчерпывается, но у него есть перезарядка</b>",
+        "Больше результатов даёт более точный анализ.\n\n",
         reply_markup=keyboard,
         parse_mode="HTML"
     )
 
 @dp.callback_query_handler(lambda c: c.data.startswith("set_web_results_"))
 async def set_web_results(callback_query: types.CallbackQuery, state: FSMContext = None):
+    # Получаем текущую модель и сохраняем её
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: set_web_results вызван с user_id={user_id}, chat_id={chat_id}")
+    
+    current_model = get_user_model(user_id)
+    
+    # Проверяем, что модель относится к OpenRouter
+    if current_model not in OPENROUTER_MODELS:
+        # Если модель не из OpenRouter, то выбираем Claude 3.7 Sonnet
+        current_model = "anthropic/claude-3-7-sonnet"
+        user_models[user_id] = current_model
+        logger.info(f"Модель изменена на {current_model} при изменении количества результатов")
+    
     # Извлекаем число из callback_data
     num_results = int(callback_query.data.replace("set_web_results_", ""))
     
     # Обновляем настройки пользователя
-    user_settings = user_data.get_user_data(callback_query.from_user.id)
+    user_settings = user_data.get_user_data(user_id)
     user_settings['ai_settings']['web_search_results'] = num_results
+    
+    # Явно сохраняем текущую модель чтобы избежать сброса
+    user_settings['ai_settings']['model'] = current_model
+    
     user_data.save()
     
     # Уведомляем пользователя
-    cost = num_results * 0.004
     await callback_query.answer(
-        f"Установлено {num_results} результатов (≈${cost:.3f} за запрос)"
+        f"Установлено {num_results} результатов"
     )
     
+    # Создаем новое сообщение с информацией о настройках
+    message = callback_query.message
+    message.from_user = callback_query.from_user  # Исправляем ID пользователя для корректной работы
+    
     # Обновляем меню настроек
-    await ai_settings(callback_query.message, state)
+    await ai_settings(message, state)
 
 @dp.callback_query_handler(lambda c: c.data == "no_action")
 async def no_action(callback_query: types.CallbackQuery):
@@ -1020,7 +1357,6 @@ async def no_action(callback_query: types.CallbackQuery):
     await callback_query.answer()
 
 async def get_channel_posts(channel_link: str, hours: int = 24) -> list:
-    """Получаем посты из канала за последние hours часов"""
     try:
         logger.info(f"Получаю посты из канала {channel_link}")
         
@@ -1072,6 +1408,256 @@ async def get_channel_posts(channel_link: str, hours: int = 24) -> list:
     except Exception as e:
         logger.error(f"Ошибка при получении постов из канала {channel_link}: {str(e)}")
         return []
+
+async def get_website_content_with_cloudscraper(url: str) -> list:
+    """
+    Получает контент с веб-сайта с использованием cloudscraper для обхода Cloudflare и других защит.
+    
+    Args:
+        url: URL сайта для получения контента
+        
+    Returns:
+        Список с контентом сайта в формате, совместимом с постами из Telegram
+    """
+    try:
+        logger.info(f"Получаю контент с сайта {url} с использованием cloudscraper")
+        
+        # Выполняем в отдельном потоке, так как cloudscraper не поддерживает async напрямую
+        def scrape():
+            # Создаем scraper с задержкой и различными настройками
+            scraper = cloudscraper.create_scraper(
+                browser={
+                    'browser': 'chrome',
+                    'platform': 'windows',
+                    'desktop': True
+                },
+                delay=3
+            )
+            
+            # Добавляем дополнительные заголовки для имитации реального пользователя
+            headers = {
+                'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+                'Referer': 'https://www.google.com/',
+                'DNT': '1',
+                'Upgrade-Insecure-Requests': '1',
+            }
+            
+            # Выполняем запрос с повторными попытками
+            for attempt in range(3):
+                try:
+                    if attempt > 0:
+                        time.sleep(3 * attempt)  # Увеличиваем задержку с каждой попыткой
+                    response = scraper.get(url, headers=headers, timeout=30)
+                    if response.status_code == 200:
+                        return response.text
+                    logger.warning(f"cloudscraper: попытка {attempt+1}, статус {response.status_code}")
+                except Exception as e:
+                    logger.error(f"cloudscraper: ошибка в попытке {attempt+1}: {str(e)}")
+            
+            return None
+        
+        # Выполняем блокирующую функцию в отдельном потоке
+        loop = asyncio.get_event_loop()
+        html = await loop.run_in_executor(None, scrape)
+        
+        if not html:
+            logger.error(f"Не удалось получить содержимое с сайта {url} с помощью cloudscraper")
+            return [{
+                'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'has_text': True,
+                'text': f"Не удалось обойти защиту на сайте {url}.",
+                'has_photo': False,
+                'photo_path': None,
+                'source_type': 'website',
+                'source_url': url,
+                'error': "cloudscraper_failed"
+            }]
+        
+        # Используем trafilatura для извлечения основного текста
+        content = trafilatura.extract(html, include_comments=False, include_tables=True, 
+                                     include_links=True, include_images=False)
+        
+        if not content:
+            # Пробуем BeautifulSoup если trafilatura не справилась
+            logger.warning(f"Trafilatura не смогла извлечь содержимое с сайта {url}, пробую BeautifulSoup")
+            soup = BeautifulSoup(html, 'html.parser')
+            
+            # Удаляем ненужные элементы
+            for script in soup(["script", "style", "nav", "footer", "header"]):
+                script.decompose()
+            
+            content = soup.get_text(separator="\n", strip=True)
+            
+            if not content or len(content) < 100:
+                # Пробуем найти основной контент по типичным тегам
+                main_content = soup.find(['article', 'main', 'div.content', 'div.main', 'div.article', 'body'])
+                if main_content:
+                    content = main_content.get_text(separator="\n", strip=True)
+                else:
+                    logger.warning(f"BeautifulSoup также не смог извлечь значимый контент с сайта {url}")
+                    return [{
+                        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'has_text': True,
+                        'text': f"На сайте {url} не удалось извлечь текстовое содержимое. Возможно, сайт использует нестандартный формат содержимого.",
+                        'has_photo': False,
+                        'photo_path': None,
+                        'source_type': 'website',
+                        'source_url': url,
+                        'error': "no_content_extracted"
+                    }]
+        
+        # Ограничиваем размер контента
+        if len(content) > 50000:
+            content = content[:50000] + "... (текст обрезан из-за большого размера)"
+            logger.info(f"Контент сайта {url} обрезан из-за большого размера")
+        
+        # Возвращаем в формате, аналогичном формату постов Telegram
+        return [{
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'has_text': True,
+            'text': f"Содержимое сайта {url}:\n\n{content}",
+            'has_photo': False,
+            'photo_path': None,
+            'source_type': 'website',
+            'source_url': url
+        }]
+        
+    except Exception as e:
+        logger.error(f"Ошибка при получении контента с сайта {url} с помощью cloudscraper: {str(e)}")
+        return [{
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'has_text': True,
+            'text': f"Ошибка при доступе к сайту {url} через CloudScraper: {str(e)}",
+            'has_photo': False,
+            'photo_path': None,
+            'source_type': 'website',
+            'source_url': url,
+            'error': str(e)
+        }]
+
+async def get_website_content(url: str) -> list:
+    try:
+        logger.info(f"Получаю контент с сайта {url}")
+        
+        # Настройка заголовков для имитации браузера
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://www.google.com/',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'cross-site',
+            'Sec-Fetch-User': '?1',
+            'Cache-Control': 'max-age=0',
+        }
+        
+        # Конфигурация клиентской сессии
+        timeout = aiohttp.ClientTimeout(total=30)
+        
+        async with aiohttp.ClientSession(headers=headers, timeout=timeout) as session:
+            async with session.get(url) as response:
+                if response.status == 200:
+                    html = await response.text()
+                    
+                    # Проверка на Cloudflare
+                    if "CF-Browser-Verification" in html or "cf-browser-verification" in html or "cloudflare" in html.lower():
+                        logger.warning(f"Обнаружена защита Cloudflare на сайте {url}, переключаюсь на CloudScraper")
+                        return await get_website_content_with_cloudscraper(url)
+                    
+                    # Проверка на CAPTCHA
+                    if "captcha" in html.lower() or "robot" in html.lower():
+                        logger.warning(f"Обнаружена CAPTCHA на сайте {url}, переключаюсь на CloudScraper")
+                        return await get_website_content_with_cloudscraper(url)
+                        
+                elif response.status == 403:
+                    logger.warning(f"Получен статус 403 Forbidden от сайта {url}, пробую через CloudScraper")
+                    return await get_website_content_with_cloudscraper(url)
+                    
+                elif response.status == 429:
+                    logger.warning(f"Получен статус 429 Too Many Requests от сайта {url}, пробую через CloudScraper")
+                    return await get_website_content_with_cloudscraper(url)
+                    
+                elif response.status >= 400:
+                    logger.error(f"Не удалось получить доступ к сайту {url}, статус: {response.status}")
+                    return [{
+                        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'has_text': True,
+                        'text': f"Не удалось получить содержимое сайта {url}. Ошибка HTTP {response.status}.",
+                        'has_photo': False,
+                        'photo_path': None,
+                        'source_type': 'website',
+                        'source_url': url,
+                        'error': f"HTTP {response.status}"
+                    }]
+                
+                else:
+                    html = await response.text()
+        
+        # Используем trafilatura для извлечения основного текста
+        content = trafilatura.extract(html, include_comments=False, include_tables=True, 
+                                     include_links=True, include_images=False)
+        
+        if not content:
+            # Пробуем получить контент другим способом, если trafilatura не справился
+            logger.warning(f"Trafilatura не смогла извлечь содержимое с сайта {url}, пробую BeautifulSoup")
+            soup = BeautifulSoup(html, 'html.parser')
+            
+            # Удаляем скрипты, стили и другие ненужные элементы
+            for script in soup(["script", "style", "nav", "footer", "header"]):
+                script.decompose()
+            
+            content = soup.get_text(separator="\n", strip=True)
+            
+            if not content or len(content) < 100:
+                logger.warning(f"BeautifulSoup также не смог извлечь значимый контент с сайта {url}")
+                return [{
+                    'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'has_text': True,
+                    'text': f"С сайта {url} не удалось извлечь текстовое содержимое. Возможно, сайт защищен от автоматического сканирования.",
+                    'has_photo': False,
+                    'photo_path': None,
+                    'source_type': 'website',
+                    'source_url': url,
+                    'error': "Не удалось извлечь содержимое"
+                }]
+        
+        # Ограничиваем размер контента
+        if len(content) > 50000:
+            content = content[:50000] + "... (текст обрезан из-за большого размера)"
+            logger.info(f"Контент сайта {url} обрезан из-за большого размера")
+        
+        # Возвращаем в формате, аналогичном формату постов Telegram
+        return [{
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'has_text': True,
+            'text': f"Содержимое сайта {url}:\n\n{content}",
+            'has_photo': False,
+            'photo_path': None,
+            'source_type': 'website',
+            'source_url': url
+        }]
+    except aiohttp.ClientError as e:
+        logger.error(f"Ошибка сетевого подключения при доступе к сайту {url}: {str(e)}")
+        # При ошибке сетевого подключения пробуем через CloudScraper
+        logger.info(f"Пробую обойти ограничения сайта {url} с помощью CloudScraper")
+        return await get_website_content_with_cloudscraper(url)
+    except Exception as e:
+        logger.error(f"Неожиданная ошибка при получении контента с сайта {url}: {str(e)}")
+        return [{
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'has_text': True,
+            'text': f"Произошла ошибка при обработке сайта {url}. Детали: {str(e)}",
+            'has_photo': False,
+            'photo_path': None,
+            'source_type': 'website',
+            'source_url': url,
+            'error': f"Неизвестная ошибка: {str(e)}"
+        }]
 
 async def download_message_photo(message, folder_name="temp_photos"):
     """Скачивает фото из сообщения если оно есть и возвращает путь к файлу"""
@@ -1369,21 +1955,35 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
         
     choice, hours, report_format = params
     hours = int(hours)
-    user = user_data.get_user_data(callback_query.from_user.id)
+    user_id = callback_query.from_user.id
+    user = user_data.get_user_data(user_id)
     
     # Проверяем, включен ли веб-поиск для уведомления о стоимости
     web_search_enabled = user['ai_settings'].get('web_search_enabled', False)
     web_search_results = user['ai_settings'].get('web_search_results', 3)
     
-    # Информация о веб-поиске
+    # Проверяем настройку видимости фотографий
+    photos_enabled = user['ai_settings'].get('photos_enabled', True)
+    
+    # Информация о веб-поиске и фотографиях
     web_search_info = ""
     if web_search_enabled:
-        cost = web_search_results * 0.004
-        web_search_info = f"\nℹ️ Веб-поиск: активен ({web_search_results} результатов, ≈${cost:.3f} за запрос)"
-        web_search_info += f"\n<b>💰 Цена = выдуманный кредит, который не исчерпывается, но у него есть перезарядка</b>"
+        web_search_info = f"\nℹ️ Веб-поиск: активен ({web_search_results} результатов)"
+        
+    photos_info = ""
+    if not photos_enabled:
+        photos_info = "\n📷 Фотографии: отключены"
+    
+    format_info = ""
+    if report_format == 'txt':
+        format_info = "\n📄 Формат отчета: TXT (обычный текст)"
+    elif report_format == 'md':
+        format_info = "\n📝 Формат отчета: Markdown (форматированный текст)"
+    else:  # pdf
+        format_info = "\n📑 Формат отчета: PDF (документ)"
     
     await callback_query.message.edit_text(
-        f"Начинаю анализ... Это может занять некоторое время{web_search_info}",
+        f"Начинаю анализ... Это может занять некоторое время{web_search_info}{photos_info}{format_info}",
         parse_mode="HTML"
     )
     
@@ -1411,29 +2011,102 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
     photos_used = False
     photo_paths = []
     
-    for folder, channels in folders:
+    for folder, sources in folders:
         await callback_query.message.answer(f"Анализирую папку {folder}...")
         
         all_posts = []
-        for channel in channels:
-            if not is_valid_channel(channel):
+        error_sources = []  # Список источников с ошибками
+        
+        # Обрабатываем все источники в папке
+        for source in sources:
+            source_info = is_valid_source(source)
+            
+            if not source_info["valid"]:
+                await callback_query.message.answer(f"⚠️ Невалидный источник: {source}")
+                error_sources.append((source, "Невалидный формат источника"))
                 continue
                 
-            posts = await get_channel_posts(channel, hours=hours)
-            if posts:
-                all_posts.extend(posts)
-            else:
-                await callback_query.message.answer(f"⚠️ Не удалось получить посты из канала {channel}")
+            if source_info["type"] == "channel":
+                # Обработка Telegram-канала
+                posts = await get_channel_posts(source, hours=hours)
+                if posts:
+                    # Добавляем информацию об источнике
+                    for post in posts:
+                        post['source_type'] = 'channel'
+                        post['source'] = source
+                    all_posts.extend(posts)
+                else:
+                    error_message = f"⚠️ Не удалось получить посты из канала {source}"
+                    await callback_query.message.answer(error_message)
+                    error_sources.append((source, "Не удалось получить посты"))
+                    
+            elif source_info["type"] == "website":
+                # Обработка веб-сайта
+                try:
+                    # Запускаем парсинг веб-сайта
+                    status_message = await callback_query.message.answer(f"🔄 Получаю данные с сайта {source}...")
+                    
+                    website_content = await get_website_content(source)
+                    
+                    if website_content:
+                        # Проверяем на наличие ошибки в ответе
+                        if any('error' in post for post in website_content):
+                            error_post = next(post for post in website_content if 'error' in post)
+                            error_text = error_post.get('error', 'Неизвестная ошибка')
+                            error_message = f"⚠️ Проблема с сайтом {source}: {error_text}"
+                            await status_message.edit_text(error_message)
+                            error_sources.append((source, error_text))
+                        else:
+                            all_posts.extend(website_content)
+                            await status_message.edit_text(f"✅ Успешно получены данные с сайта {source}")
+                    else:
+                        error_message = f"⚠️ Не удалось получить контент с сайта {source}"
+                        await status_message.edit_text(error_message)
+                        error_sources.append((source, "Не удалось получить контент"))
+                except Exception as e:
+                    logger.error(f"Ошибка при парсинге сайта {source}: {str(e)}")
+                    error_message = f"❌ Ошибка при анализе сайта {source}: {str(e)}"
+                    await callback_query.message.answer(error_message)
+                    error_sources.append((source, f"Ошибка: {str(e)}"))
         
         if not all_posts:
-            await callback_query.message.answer(f"❌ Не удалось получить посты из каналов в папке {folder}")
+            await callback_query.message.answer(
+                f"❌ Не удалось получить данные из источников в папке {folder}"
+                f"\n\nПодробности по источникам:"
+                + "".join([f"\n- {src}: {err}" for src, err in error_sources])
+            )
             continue
             
-        # Сортируем посты по дате
-        all_posts.sort(key=lambda x: x['date'], reverse=True)
+        # Сортируем посты по дате (если есть дата)
+        all_posts.sort(key=lambda x: x.get('date', ''), reverse=True)
         
-        # Проверяем, есть ли изображения в постах
-        has_images = any(post.get('has_photo', False) for post in all_posts)
+        # Удаляем посты с ошибками перед анализом
+        filtered_posts = [post for post in all_posts if 'error' not in post]
+        
+        if len(filtered_posts) < len(all_posts):
+            logger.info(f"Удалено {len(all_posts) - len(filtered_posts)} постов с ошибками перед анализом")
+            all_posts = filtered_posts
+        
+        # Если после фильтрации не осталось постов, сообщаем об ошибке
+        if not all_posts:
+            await callback_query.message.answer(
+                f"❌ После фильтрации ошибок не осталось данных для анализа в папке {folder}"
+                f"\n\nПодробности по источникам:"
+                + "".join([f"\n- {src}: {err}" for src, err in error_sources])
+            )
+            continue
+            
+        # Проверяем, есть ли изображения в постах и включены ли они в настройках
+        has_images = photos_enabled and any(post.get('has_photo', False) for post in all_posts)
+        
+        # Если фотографии отключены, очищаем пути к фото в постах
+        if not photos_enabled:
+            for post in all_posts:
+                if post.get('has_photo', False):
+                    post['has_photo'] = False
+                    post['photo_path'] = None
+                    logger.info(f"Фотография отключена в соответствии с настройками пользователя")
+        
         if has_images:
             photos_used = True
             # Собираем пути ко всем используемым фотографиям
@@ -1444,13 +2117,24 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
         # Если есть изображения - используем новую функцию для анализа с изображениями
         prompt = user['prompts'][folder]
         
+        # Добавляем информацию о требуемом формате в промт
+        format_instructions = ""
+        if report_format == 'txt':
+            format_instructions = "\n\nФОРМАТ ОТВЕТА: Обычный текст без разметки. Используй только простое форматирование с разделами, заголовками и отступами."
+        elif report_format == 'md':
+            format_instructions = "\n\nФОРМАТ ОТВЕТА: Markdown. Используй полное форматирование Markdown для заголовков (#, ##, ###), списков (*, -), жирного и курсивного текста (**жирный**, *курсив*), ссылок [текст](url), цитат (>) и разделителей (---)."
+        else:  # pdf
+            format_instructions = "\n\nФОРМАТ ОТВЕТА: PDF-совместимый текст. Учитывай, что ответ будет преобразован в PDF документ. Используй четкую структуру с заголовками, разделами и абзацами. Избегай сложного форматирования, которое может плохо отображаться в PDF."
+        
+        modified_prompt = prompt + format_instructions
+        
         try:
             if has_images:
                 # Используем новую функцию для анализа с изображениями
                 response = await try_openrouter_request_with_images(
-                    prompt, 
+                    modified_prompt, 
                     all_posts, 
-                    callback_query.from_user.id, 
+                    user_id, 
                     bot, 
                     user_data
                 )
@@ -1478,10 +2162,10 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
                     f"[{post['date']}]\n{post['text']}" for post in all_posts if post.get('has_text', False)
                 ])
                 
-                response = await try_gpt_request(prompt, posts_text, callback_query.from_user.id, bot, user_data)
+                response = await try_gpt_request(modified_prompt, posts_text, user_id, bot, user_data)
             
             # Сохраняем отчет в БД
-            save_report(callback_query.from_user.id, folder, response)
+            save_report(user_id, folder, response)
             
             # Генерируем отчет в выбранном формате
             if report_format == 'txt':
@@ -2017,10 +2701,46 @@ async def generate_mermaid_diagram(analysis_text: str, user_id: int) -> Optional
         logger.error(f"Ошибка при генерации Mermaid-диаграммы: {str(e)}")
         return None
 
+@dp.callback_query_handler(lambda c: c.data == "toggle_photos")
+async def toggle_photos(callback_query: types.CallbackQuery, state: FSMContext = None):
+    # Получаем данные пользователя
+    user_id = callback_query.from_user.id
+    chat_id = callback_query.message.chat.id
+    logger.warning(f"DEBUG: toggle_photos вызван с user_id={user_id}, chat_id={chat_id}")
+    
+    # Получаем текущие настройки
+    user_settings = user_data.get_user_data(user_id)
+    current_status = user_settings['ai_settings'].get('photos_enabled', True)
+    
+    # Переключаем статус
+    user_settings['ai_settings']['photos_enabled'] = not current_status
+    
+    # Сохраняем изменения
+    user_data.save()
+    
+    # Получаем новый статус для отображения
+    new_status = user_settings['ai_settings']['photos_enabled']
+    
+    # Отправляем уведомление
+    await callback_query.answer(
+        f"Обработка фотографий {'включена' if new_status else 'выключена'}."
+    )
+    
+    # Создаем новое сообщение с информацией о настройках
+    message = callback_query.message
+    message.from_user = callback_query.from_user  # Исправляем ID пользователя для корректной работы
+    
+    # Обновляем меню настроек
+    await ai_settings(message, state)
+
 async def main():
     try:
         # Инициализируем базу данных
         init_db()
+        
+        # Загружаем сохраненные модели пользователей
+        load_models_from_user_data(user_data)
+        logger.info("Загружены сохраненные модели пользователей")
         
         # Запускаем клиент Telethon
         await client.start()
@@ -2064,6 +2784,113 @@ async def main():
         await bot.session.close()
         await client.disconnect()
         scheduler.shutdown()
+
+@dp.callback_query_handler(lambda c: c.data == "show_thinking_guide")
+async def show_thinking_guide(callback_query: types.CallbackQuery):
+    """Показывает справку о режиме Thinking для Claude 3.7"""
+    thinking_guide = (
+        "📘 <b>Справочник по режиму Thinking для Claude 3.7</b>\n\n"
+        "Модель <b>Claude 3.7 Sonnet (Thinking)</b> поддерживает специальный режим расширенного мышления, "
+        "который позволяет модели показывать ход своих рассуждений. Это дает более глубокий и структурированный анализ.\n\n"
+        
+        "<b>Основные возможности:</b>\n"
+        "• <b>Многоуровневый анализ</b> - модель может проводить сложные рассуждения шаг за шагом\n"
+        "• <b>Углубленное исследование</b> - исследует темы с разных перспектив\n"
+        "• <b>Прозрачное принятие решений</b> - объясняет почему выбран тот или иной подход\n"
+        "• <b>Структурированные выводы</b> - организует информацию логично и систематически\n\n"
+        
+        "<b>Примеры инструкций для активации режима Thinking:</b>\n\n"
+        
+        "1. <i>\"Перед тем как дать окончательный ответ, проведи расширенный анализ. "
+        "Тщательно проработай каждую точку зрения, рассмотри аргументы за и против, "
+        "и только потом сформулируй вывод.\"</i>\n\n"
+        
+        "2. <i>\"Используй прием 'рассуждение вслух'. Разбей анализ на четкие этапы: 1) Основные факты, "
+        "2) Возможные интерпретации, 3) Критическая оценка каждой интерпретации, "
+        "4) Окончательные выводы и рекомендации.\"</i>\n\n"
+        
+        "3. <i>\"Для особо важного анализа новостей применяй многоступенчатый подход: сначала выдели ключевые темы, "
+        "затем проведи разбор каждой темы по схеме: 'Суть новости → Политический контекст → "
+        "Возможные последствия → Рекомендации для коммуникации'.\"</i>\n\n"
+        
+        "<b>Лучшие практики:</b>\n"
+        "• Явно указывайте на необходимость развернутого анализа\n"
+        "• Опишите конкретные шаги или структуру анализа\n"
+        "• Используйте фразы: 'разбери по пунктам', 'проанализируй шаг за шагом', 'размышляй вслух'\n\n"
+        
+        "<b>Источник:</b> <a href='https://www.anthropic.com/news/visible-extended-thinking'>Anthropic: Visible Extended Thinking</a>"
+    )
+    
+    # Создаем кнопку для возврата к выбору модели
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(types.InlineKeyboardButton("🔙 Вернуться к выбору модели", callback_data="choose_model"))
+    
+    # Показываем справку
+    await callback_query.message.edit_text(
+        thinking_guide,
+        reply_markup=keyboard,
+        parse_mode="HTML",
+        disable_web_page_preview=True
+    )
+    
+    await callback_query.answer("Справка о режиме Thinking")
+
+@dp.callback_query_handler(lambda c: c.data == "refresh_credits")
+async def refresh_credits(callback_query: types.CallbackQuery, state: FSMContext = None):
+    user_id = callback_query.from_user.id
+    
+    current_model = get_user_model(user_id)
+    service = "Monica AI"
+    if current_model in OPENROUTER_MODELS:
+        service = "OpenRouter"
+    
+    await callback_query.answer("🔄 Обновление информации о кредитах...")
+    
+    credits_info = "🔄 Получение свежей информации о кредитах..."
+    await callback_query.message.edit_text(
+        f"{callback_query.message.text.split('💰')[0]}\n{credits_info}",
+        reply_markup=callback_query.message.reply_markup
+    )
+    
+    try:
+        if service == "Monica AI":
+            credits_result = await check_monica_credits()
+            if credits_result["success"]:
+                if "info" in credits_result:
+                    credits_info = f"ℹ️ {credits_result['info']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+                else:
+                    credits_info = (
+                        f"💰 Баланс кредитов Monica AI:\n"
+                        f"  • Всего: {credits_result['total']}\n"
+                        f"  • Использовано: {credits_result['used']}\n"
+                        f"  • Осталось: {credits_result['remaining']}\n"
+                        f"  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+                    )
+            else:
+                credits_info = f"❌ Не удалось получить информацию о кредитах Monica AI: {credits_result.get('error', 'Неизвестная ошибка')}"
+        else:  # OpenRouter
+            credits_result = await check_openrouter_credits()
+            if credits_result["success"]:
+                credits_info = f"💰 Осталось кредитов: ${credits_result['remaining']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
+            else:
+                credits_info = f"❌ Не удалось получить информацию о кредитах OpenRouter: {credits_result.get('error', 'Неизвестная ошибка')}"
+    except Exception as e:
+        credits_info = f"❌ Ошибка при получении информации о кредитах: {str(e)}"
+    
+    message_parts = callback_query.message.text.split('💰')
+    if len(message_parts) > 1:
+        updated_text = f"{message_parts[0]}{credits_info}\n\nℹ️ Выберите, что хотите настроить:"
+    else:
+        updated_text = callback_query.message.text.replace(
+            "🔄 Получение свежей информации о кредитах...", 
+            f"{credits_info}\n"
+        )
+    
+    await callback_query.message.edit_text(
+        updated_text,
+        reply_markup=callback_query.message.reply_markup,
+        parse_mode="HTML"
+    )
 
 if __name__ == '__main__':
     # Настраиваем политику событийного цикла
