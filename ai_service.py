@@ -637,10 +637,9 @@ async def try_openrouter_request_with_images(prompt: str, posts: list, user_id: 
 async def check_monica_credits() -> dict:
     return {
         "success": True,
-        "total": "Неограничено",
-        "used": "—",
-        "remaining": "—",
-        "info": "Monica API не предоставляет информацию о кредитах"
+        "total": "",
+        "used": "",
+        "remaining": ""
     }
 
 async def check_openrouter_credits() -> dict:

@@ -1,3 +1,7 @@
 __pycache__
 venv
 .cursorignore
+bot.db
+bot.log
+bot.db
+bot.log

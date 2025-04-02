@@ -300,34 +300,48 @@ def generate_unique_filename(base_name: str, extension: str) -> str:
             return filename
         counter += 1
 
-def generate_txt_report(content: str, folder: str) -> str:
-    """Генерирует отчет в формате TXT"""
-    current_time = datetime.now().strftime("%d%m")
+def generate_txt_report(content: str, folder: str, user_id: int) -> str:
+    """Генерирует TXT отчет и возвращает путь к нему"""
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    # Создаем директорию analysis если ее нет
+    # Создаем структуру директорий
     analysis_dir = "analysis"
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
-        
-    base_name = os.path.join(analysis_dir, f"{folder}-{current_time}")
-    filename = generate_unique_filename(base_name, ".txt")
     
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(content)
+    # Создаем подпапку пользователя
+    user_dir = os.path.join(analysis_dir, str(user_id))
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
     
-    return filename
+    base_name = os.path.join(user_dir, f"{folder}-{current_time}")
+    filename = f"{base_name}.txt"
+    
+    try:
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f"Создан TXT отчет: {filename}")
+        return filename
+    except Exception as e:
+        logger.error(f"Ошибка при создании TXT отчета: {str(e)}")
+        raise e
 
-def generate_pdf_report(content: str, folder: str) -> str:
-    """Генерирует отчет в формате PDF с поддержкой Markdown"""
-    current_time = datetime.now().strftime("%d%m")
+def generate_pdf_report(content: str, folder: str, user_id: int) -> str:
+    """Генерирует PDF отчет и возвращает путь к нему"""
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    # Создаем директорию analysis если ее нет
+    # Создаем структуру директорий
     analysis_dir = "analysis"
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
-        
-    base_name = os.path.join(analysis_dir, f"{folder}-{current_time}")
-    filename = generate_unique_filename(base_name, ".pdf")
+    
+    # Создаем подпапку пользователя
+    user_dir = os.path.join(analysis_dir, str(user_id))
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
+    
+    base_name = os.path.join(user_dir, f"{folder}-{current_time}")
+    filename = f"{base_name}.pdf"
     
     pdf = FPDF()
     pdf.add_page()
@@ -434,16 +448,33 @@ def generate_pdf_report(content: str, folder: str) -> str:
             pdf.line(pdf.l_margin, pdf.get_y(), pdf.w - pdf.r_margin, pdf.get_y())
             pdf.ln(10)
             continue
-        
-        # Базовая обработка жирного и курсивного текста (упрощенная)
-        # В реальности требуется более сложная парсинг-логика для корректной обработки
-        
-        # Обычный текст
-        pdf.multi_cell(0, 10, line.strip())
+            
+        # Обработка кода (однострочного)
+        if '`' in line:
+            parts = line.split('`')
+            text = ''
+            is_code = False
+            
+            for part in parts:
+                if is_code:
+                    # Это код, выделяем его шрифтом
+                    pdf.set_font('Courier', '')
+                    text += part
+                    pdf.set_font('DejaVu', '')
+                else:
+                    text += part
+                is_code = not is_code
+                
+            pdf.multi_cell(0, 10, text)
+            continue
+            
+        # По умолчанию - просто выводим текст
+        pdf.multi_cell(0, 10, line)
     
     # Сохраняем PDF
     try:
         pdf.output(filename, 'F')
+        logger.info(f"Создан PDF отчет: {filename}")
     except Exception as e:
         logger.error(f"Ошибка при сохранении PDF: {str(e)}")
         # Пробуем сохранить с транслитерацией имени файла
@@ -453,30 +484,57 @@ def generate_pdf_report(content: str, folder: str) -> str:
     
     return filename
 
-def generate_md_report(content: str, folder: str) -> str:
-    """Генерирует отчет в формате Markdown"""
-    current_time = datetime.now().strftime("%d%m")
+def generate_md_report(content: str, folder: str, user_id: int) -> str:
+    """Генерирует Markdown отчет и возвращает путь к нему"""
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    # Создаем директорию analysis если ее нет
+    # Создаем структуру директорий
     analysis_dir = "analysis"
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
-        
-    base_name = os.path.join(analysis_dir, f"{folder}-{current_time}")
-    filename = generate_unique_filename(base_name, ".md")
     
-    # Добавляем заголовок Markdown
-    md_content = f"# Анализ папки: {folder}\n\n"
-    md_content += f"*Дата создания: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
-    md_content += f"---\n\n"
+    # Создаем подпапку пользователя
+    user_dir = os.path.join(analysis_dir, str(user_id))
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
     
-    # Добавляем основной контент
-    md_content += content
+    base_name = os.path.join(user_dir, f"{folder}-{current_time}")
+    filename = f"{base_name}.md"
     
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(md_content)
+    try:
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f"Создан Markdown отчет: {filename}")
+        return filename
+    except Exception as e:
+        logger.error(f"Ошибка при создании Markdown отчета: {str(e)}")
+        raise e
+
+def save_txt_copy_of_report(content: str, folder: str, user_id: int) -> str:
+    """Всегда сохраняет копию отчета в формате TXT вне зависимости от выбора пользователя"""
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    return filename
+    # Создаем структуру директорий
+    analysis_dir = "analysis"
+    if not os.path.exists(analysis_dir):
+        os.makedirs(analysis_dir)
+    
+    # Создаем подпапку пользователя
+    user_dir = os.path.join(analysis_dir, str(user_id))
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
+    
+    base_name = os.path.join(user_dir, f"{folder}-{current_time}")
+    filename = f"{base_name}_copy.txt"
+    
+    try:
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f"Создана TXT копия отчета: {filename}")
+        return filename
+    except Exception as e:
+        logger.error(f"Ошибка при создании TXT копии отчета: {str(e)}")
+        return None
 
 # Определяем путь к шрифту в зависимости от ОС
 def get_font_path():
@@ -517,6 +575,16 @@ def get_font_path():
     except Exception as e:
         logger.error(f"Не удалось скачать шрифт: {str(e)}")
         raise Exception("Не удалось найти или скачать шрифт DejaVuSans.ttf")
+
+def save_report_with_txt_copy(user_id: int, folder: str, content: str):
+    """Сохраняет отчет в БД и создает TXT копию в папке analysis"""
+    # Сохраняем отчет в БД
+    save_report(user_id, folder, content)
+    
+    # Всегда сохраняем TXT копию отчета
+    txt_copy_filename = save_txt_copy_of_report(content, folder, user_id)
+    
+    return txt_copy_filename
 
 @dp.message_handler(commands=['start'])
 @require_access
@@ -981,19 +1049,7 @@ async def ai_settings(message: types.Message, state: FSMContext = None, **kwargs
     try:
         if service == "Monica AI":
             credits_result = await check_monica_credits()
-            if credits_result["success"]:
-                if "info" in credits_result:
-                    credits_info = f"ℹ️ {credits_result['info']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
-                else:
-                    credits_info = (
-                        f"💰 Баланс кредитов Monica AI:\n"
-                        f"  • Всего: {credits_result['total']}\n"
-                        f"  • Использовано: {credits_result['used']}\n"
-                        f"  • Осталось: {credits_result['remaining']}\n"
-                        f"  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
-                    )
-            else:
-                credits_info = f"❌ Не удалось получить информацию о кредитах Monica AI: {credits_result.get('error', 'Неизвестная ошибка')}"
+            credits_info = ""  # Для Monica не показываем никакой информации о кредитах
         else:  # OpenRouter
             credits_result = await check_openrouter_credits()
             if credits_result["success"]:
@@ -1020,25 +1076,29 @@ async def ai_settings(message: types.Message, state: FSMContext = None, **kwargs
                 callback_data="change_web_results"
             ))
     
-    photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
-    keyboard.add(types.InlineKeyboardButton(
-        f"📷 Фотографии: {photos_status}",
-        callback_data="toggle_photos"
-    ))
+    # Добавляем кнопку переключения фотографий только если это OpenRouter
+    if service == "OpenRouter":
+        photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
+        keyboard.add(types.InlineKeyboardButton(
+            f"📷 Фотографии: {photos_status}",
+            callback_data="toggle_photos"
+        ))
     
+    # Формируем информацию о веб-поиске и фотографиях
     web_search_info = ""
+    photos_info = ""  # Инициализируем всегда, чтобы избежать ошибки
     if service == "OpenRouter":
         web_search_info = f"\n🔍 Веб-поиск: {'Включен' if web_search_enabled else 'Выключен'}"
         if web_search_enabled:
             web_search_info += f"\n📊 Результатов: {web_search_results}"
+        photos_info = f"\n📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}"
     
     await message.answer(
         f"📊 Текущие настройки ИИ:\n\n"
         f"🔹 Модель: {model_info['name']}\n"
         f"🔧 Сервис: {service}\n"
         f"📝 Описание: {model_info['description']}\n"
-        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n"
-        f"📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}\n\n"
+        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}{photos_info}\n\n"
         f"{credits_info}\n\n"
         f"ℹ️ Выберите, что хотите настроить:",
         reply_markup=keyboard,
@@ -1168,20 +1228,23 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
                 f"📊 Количество результатов: {web_search_results}",
                 callback_data="change_web_results"
             ))
+            
+        # Добавляем кнопку переключения фотографий только для OpenRouter
+        photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
+        keyboard.add(types.InlineKeyboardButton(
+            f"📷 Фотографии: {photos_status}",
+            callback_data="toggle_photos"
+        ))
     
-    # Добавляем кнопку переключения фотографий
-    photos_status = "✅ Включены" if photos_enabled else "❌ Выключены"
-    keyboard.add(types.InlineKeyboardButton(
-        f"📷 Фотографии: {photos_status}",
-        callback_data="toggle_photos"
-    ))
-    
-    # Формируем информацию о веб-поиске
+    # Формируем информацию о веб-поиске и фотографиях
     web_search_info = ""
+    photos_info = "" # Инициализируем пустую строку
+    
     if service == "OpenRouter":
         web_search_info = f"\n🔍 Веб-поиск: {'Включен' if web_search_enabled else 'Выключен'}"
         if web_search_enabled:
             web_search_info += f"\n📊 Результатов: {web_search_results}"
+        photos_info = f"\n📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}"
     
     # Отправляем подтверждение
     await callback_query.message.edit_text(
@@ -1190,8 +1253,7 @@ async def process_model_selection(callback_query: types.CallbackQuery, state: FS
         f"🔹 Модель: {model_info['name']}\n"
         f"🔧 Сервис: {service}\n"
         f"📝 Описание: {model_info['description']}\n"
-        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}\n"
-        f"📷 Фотографии: {'Включены' if photos_enabled else 'Выключены'}{credits_info}\n\n"
+        f"📊 Макс. токенов: {model_info['max_tokens']}{web_search_info}{photos_info}{credits_info}\n\n"
         f"ℹ️ Выберите, что хотите настроить:",
         reply_markup=keyboard,
         parse_mode="HTML"
@@ -1659,17 +1721,13 @@ async def get_website_content(url: str) -> list:
             'error': f"Неизвестная ошибка: {str(e)}"
         }]
 
-async def download_message_photo(message, folder_name="temp_photos"):
+async def download_message_photo(message, folder_name="photo"):
     """Скачивает фото из сообщения если оно есть и возвращает путь к файлу"""
     if not message.photo:
         return None
     
     # Создаем директорию если её нет
     os.makedirs(folder_name, exist_ok=True)
-    
-    # Создаем также постоянную директорию для хранения всех фото
-    permanent_folder = "photos"
-    os.makedirs(permanent_folder, exist_ok=True)
     
     # Генерируем уникальное имя файла на основе даты и ID сообщения
     file_name = f"{message.date.strftime('%Y%m%d_%H%M%S')}_{message.id}.jpg"
@@ -1680,11 +1738,6 @@ async def download_message_photo(message, folder_name="temp_photos"):
         path = await client.download_media(message.photo, temp_path)
         logger.info(f"Скачано фото: {path}")
         
-        # Копируем в постоянную директорию
-        permanent_path = os.path.join(permanent_folder, file_name)
-        shutil.copy2(path, permanent_path)
-        logger.info(f"Фото сохранено на постоянное хранение: {permanent_path}")
-        
         return path
     except Exception as e:
         logger.error(f"Ошибка при скачивании фото: {str(e)}")
@@ -1692,7 +1745,8 @@ async def download_message_photo(message, folder_name="temp_photos"):
 
 @dp.message_handler(lambda message: message.text == "📊 История отчетов")
 async def show_reports(message: types.Message):
-    reports = get_user_reports(message.from_user.id)
+    user_id = message.from_user.id
+    reports = get_user_reports(user_id, limit=5)
     if not reports:
         await message.answer("У вас пока нет сохраненных отчетов")
         return
@@ -1703,28 +1757,120 @@ async def show_reports(message: types.Message):
         text += f"📁 {folder} ({dt.strftime('%Y-%m-%d %H:%M')})\n"
         
     keyboard = types.InlineKeyboardMarkup(row_width=1)
-    for folder, _, _ in reports:
+    for folder, _, created_at in reports:
+        # Используем индекс created_at в callback_data для уникальности
+        dt = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+        timestamp = dt.strftime('%Y%m%d_%H%M%S')
         keyboard.add(types.InlineKeyboardButton(
-            f"📄 Отчет по {folder}",
-            callback_data=f"report_{folder}"
+            f"📄 Отчет по {folder} ({dt.strftime('%d.%m.%Y %H:%M')})",
+            callback_data=f"report_format_{folder}_{timestamp}"
         ))
         
     await message.answer(text, reply_markup=keyboard)
 
+@dp.callback_query_handler(lambda c: c.data.startswith('report_format_'))
+async def report_format_choice(callback_query: types.CallbackQuery):
+    parts = callback_query.data.replace('report_format_', '').split('_')
+    if len(parts) < 2:
+        await callback_query.answer("❌ Ошибка формата данных")
+        return
+    
+    folder = parts[0]
+    timestamp = '_'.join(parts[1:])
+    
+    keyboard = types.InlineKeyboardMarkup(row_width=3)
+    keyboard.add(
+        types.InlineKeyboardButton("📝 TXT", callback_data=f"report_{folder}_{timestamp}_txt"),
+        types.InlineKeyboardButton("📄 PDF", callback_data=f"report_{folder}_{timestamp}_pdf"),
+        types.InlineKeyboardButton("📋 MD", callback_data=f"report_{folder}_{timestamp}_md")
+    )
+    keyboard.add(types.InlineKeyboardButton("🔙 Назад", callback_data="back_to_reports"))
+    
+    await callback_query.message.edit_text(
+        f"Выберите формат отчета для папки {folder}:",
+        reply_markup=keyboard
+    )
+
 @dp.callback_query_handler(lambda c: c.data.startswith('report_'))
 async def show_report_content(callback_query: types.CallbackQuery):
-    folder = callback_query.data.replace('report_', '')
-    reports = get_user_reports(callback_query.from_user.id)
+    # Проверяем, что это не callback для выбора формата
+    if callback_query.data.startswith('report_format_'):
+        await report_format_choice(callback_query)
+        return
+        
+    # Парсим параметры
+    parts = callback_query.data.replace('report_', '').split('_')
+    if len(parts) < 3:  # folder_timestamp_format
+        await callback_query.answer("❌ Ошибка формата данных")
+        return
+        
+    # Получаем параметры
+    folder = parts[0]
+    timestamp = parts[1]
+    report_format = parts[-1]  # последний элемент - формат
     
-    for rep_folder, content, created_at in reports:
+    user_id = callback_query.from_user.id
+    reports = get_user_reports(user_id)
+    
+    # Ищем отчет в полученных данных
+    content = None
+    created_at = None
+    
+    for rep_folder, rep_content, rep_created_at in reports:
         if rep_folder == folder:
-            dt = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-            await callback_query.message.answer(
-                f"📊 Отчет по папке {folder}\n"
-                f"📅 {dt.strftime('%Y-%m-%d %H:%M')}\n\n"
-                f"{content}"
-            )
+            content = rep_content
+            created_at = rep_created_at
             break
+    
+    if not content:
+        await callback_query.answer("❌ Отчет не найден")
+        return
+    
+    # Создаем файл в выбранном формате
+    try:
+        await callback_query.answer("⏳ Создаю файл...")
+        
+        if report_format == 'txt':
+            filename = generate_txt_report(content, folder, user_id)
+        elif report_format == 'md':
+            filename = generate_md_report(content, folder, user_id)
+        else:  # pdf
+            try:
+                filename = generate_pdf_report(content, folder, user_id)
+            except Exception as pdf_error:
+                logger.error(f"Ошибка при создании PDF: {str(pdf_error)}")
+                await callback_query.message.answer("⚠️ Не удалось создать PDF версию отчета. Создаю MD версию вместо PDF...")
+                
+                try:
+                    filename = generate_md_report(content, folder, user_id)
+                    report_format = 'md'
+                except Exception as md_error:
+                    logger.error(f"Ошибка при создании MD: {str(md_error)}")
+                    await callback_query.message.answer("⚠️ Пробую создать TXT версию...")
+                    
+                    try:
+                        filename = generate_txt_report(content, folder, user_id)
+                        report_format = 'txt'
+                    except Exception as txt_error:
+                        logger.error(f"Ошибка при создании TXT: {str(txt_error)}")
+                        await callback_query.message.answer("❌ Не удалось создать отчет ни в каком формате")
+                        return
+        
+        # Отправляем файл
+        with open(filename, 'rb') as f:
+            dt = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+            await callback_query.message.answer_document(
+                f,
+                caption=f"📊 Отчет по папке {folder} от {dt.strftime('%d.%m.%Y %H:%M')} ({report_format.upper()})"
+            )
+        
+        # Удаляем файл после отправки
+        os.remove(filename)
+        
+    except Exception as e:
+        error_msg = f"❌ Ошибка при создании отчета: {str(e)}"
+        logger.error(error_msg)
+        await callback_query.message.answer(error_msg)
 
 @dp.message_handler(lambda message: message.text == "⏰ Настроить расписание")
 async def setup_schedule_start(message: types.Message):
@@ -1838,8 +1984,8 @@ async def run_scheduled_analysis(user_id: int, folder: str):
         
         response = await try_gpt_request(prompt, posts_text, user_id, bot, user_data)
         
-        # Сохраняем отчет
-        save_report(user_id, folder, response)
+        # Сохраняем отчет в БД и создаем TXT копию
+        save_report_with_txt_copy(user_id, folder, response)
         
         # Логируем успешное завершение отчета
         logger.info("отчет удался")
@@ -1992,20 +2138,10 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
     else:
         folders = [(choice, user['folders'][choice])]
     
-    # Создаем папку для временного хранения фотографий
-    photo_folder = "temp_photos"
+    # Создаем папку для хранения фотографий
+    photo_folder = "photo"
     if not os.path.exists(photo_folder):
         os.makedirs(photo_folder)
-    
-    # Папки для хранения постоянных фото
-    permanent_photo_folder = "photo"
-    if not os.path.exists(permanent_photo_folder):
-        os.makedirs(permanent_photo_folder)
-    
-    # Дополнительная папка для фото (photos)
-    additional_photo_folder = "photos"
-    if not os.path.exists(additional_photo_folder):
-        os.makedirs(additional_photo_folder)
     
     # Флаг для отслеживания использования фотографий
     photos_used = False
@@ -2139,23 +2275,10 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
                     user_data
                 )
                 
-                # После успешного запроса копируем фотографии в постоянную папку
+                # Файлы уже сохранены в папке photo, добавляем пути в список для последующего удаления
                 for post in all_posts:
                     if post.get('has_photo', False) and post.get('photo_path'):
-                        try:
-                            # Получаем имя файла из пути
-                            filename = os.path.basename(post['photo_path'])
-                            # Создаем новый путь в постоянной папке
-                            new_path = os.path.join(permanent_photo_folder, filename)
-                            # Копируем файл в постоянную папку
-                            shutil.copy2(post['photo_path'], new_path)
-                            # Добавляем путь в список для последующего удаления
-                            photo_paths.append(new_path)
-                            # Обновляем путь к файлу в посте
-                            post['photo_path'] = new_path
-                            logger.info(f"Фото скопировано в постоянную папку: {new_path}")
-                        except Exception as e:
-                            logger.error(f"Ошибка при копировании фото в постоянную папку: {str(e)}")
+                        photo_paths.append(post['photo_path'])
             else:
                 # Используем стандартную функцию для анализа только текста
                 posts_text = "\n\n---\n\n".join([
@@ -2164,30 +2287,30 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
                 
                 response = await try_gpt_request(modified_prompt, posts_text, user_id, bot, user_data)
             
-            # Сохраняем отчет в БД
-            save_report(user_id, folder, response)
+            # Сохраняем отчет в БД и создаем TXT копию
+            save_report_with_txt_copy(user_id, folder, response)
             
             # Генерируем отчет в выбранном формате
             if report_format == 'txt':
-                filename = generate_txt_report(response, folder)
+                filename = generate_txt_report(response, folder, user_id)
             elif report_format == 'md':
-                filename = generate_md_report(response, folder)
+                filename = generate_md_report(response, folder, user_id)
             else:  # pdf
                 try:
-                    filename = generate_pdf_report(response, folder)
+                    filename = generate_pdf_report(response, folder, user_id)
                 except Exception as pdf_error:
                     logger.error(f"Ошибка при создании PDF: {str(pdf_error)}")
                     await callback_query.message.answer("⚠️ Не удалось создать PDF версию отчета. Создаю MD версию вместо PDF...")
                     
                     try:
-                        filename = generate_md_report(response, folder)
+                        filename = generate_md_report(response, folder, user_id)
                         report_format = 'md'
                         await callback_query.message.answer("✅ Отчет успешно создан в формате Markdown")
                     except Exception as md_error:
                         logger.error(f"Ошибка при создании MD: {str(md_error)}")
                         await callback_query.message.answer("⚠️ Пробую создать TXT версию...")
                         try:
-                            filename = generate_txt_report(response, folder)
+                            filename = generate_txt_report(response, folder, user_id)
                             report_format = 'txt'
                             await callback_query.message.answer("✅ Отчет успешно создан в формате TXT")
                         except Exception as txt_error:
@@ -2202,7 +2325,7 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
                     caption=f"✅ Анализ для папки {folder} ({report_format.upper()})"
                 )
             
-            # Удаляем временный файл отчета
+            # Удаляем временный файл отчета выбранного формата, но сохраняем TXT копию
             os.remove(filename)
             
             # Удаляем фотографии, если они были использованы и получен ответ от API
@@ -2216,7 +2339,7 @@ async def process_analysis_choice(callback_query: types.CallbackQuery):
             await callback_query.message.answer(error_msg)
             
     # Удаляем все фотографии из всех папок
-    await delete_all_photos([photo_folder, permanent_photo_folder, additional_photo_folder])
+    await delete_all_photos()
             
     await callback_query.message.answer("✅ Анализ завершен!")
 
@@ -2230,21 +2353,20 @@ async def delete_photos(photo_paths):
         except Exception as e:
             logger.error(f"Ошибка при удалении файла {path}: {str(e)}")
 
-async def delete_all_photos(folders):
-    """Удаляет все фотографии из указанных папок"""
-    for folder in folders:
-        try:
-            if os.path.exists(folder):
-                for file in os.listdir(folder):
-                    file_path = os.path.join(folder, file)
-                    if os.path.isfile(file_path) and file.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
-                        try:
-                            os.remove(file_path)
-                            logger.info(f"Удален файл из папки {folder}: {file}")
-                        except Exception as e:
-                            logger.error(f"Ошибка при удалении файла {file_path}: {str(e)}")
-        except Exception as e:
-            logger.error(f"Ошибка при очистке папки {folder}: {str(e)}")
+async def delete_all_photos():
+    folder = "photo"
+    try:
+        if os.path.exists(folder):
+            for file in os.listdir(folder):
+                file_path = os.path.join(folder, file)
+                if os.path.isfile(file_path) and file.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
+                    try:
+                        os.remove(file_path)
+                        logger.info(f"Удален файл из папки {folder}: {file}")
+                    except Exception as e:
+                        logger.error(f"Ошибка при удалении файла {file_path}: {str(e)}")
+    except Exception as e:
+        logger.error(f"Ошибка при очистке папки {folder}: {str(e)}")
 
 @dp.message_handler(lambda message: message.text == "🔙 Назад", state="*")
 async def back_to_main_menu(message: types.Message, state: FSMContext):
@@ -2855,19 +2977,7 @@ async def refresh_credits(callback_query: types.CallbackQuery, state: FSMContext
     try:
         if service == "Monica AI":
             credits_result = await check_monica_credits()
-            if credits_result["success"]:
-                if "info" in credits_result:
-                    credits_info = f"ℹ️ {credits_result['info']}\n  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
-                else:
-                    credits_info = (
-                        f"💰 Баланс кредитов Monica AI:\n"
-                        f"  • Всего: {credits_result['total']}\n"
-                        f"  • Использовано: {credits_result['used']}\n"
-                        f"  • Осталось: {credits_result['remaining']}\n"
-                        f"  • Обновлено: {datetime.now().strftime('%H:%M:%S')}"
-                    )
-            else:
-                credits_info = f"❌ Не удалось получить информацию о кредитах Monica AI: {credits_result.get('error', 'Неизвестная ошибка')}"
+            credits_info = ""  # Для Monica не показываем никакой информации о кредитах
         else:  # OpenRouter
             credits_result = await check_openrouter_credits()
             if credits_result["success"]:
@@ -2891,6 +3001,11 @@ async def refresh_credits(callback_query: types.CallbackQuery, state: FSMContext
         reply_markup=callback_query.message.reply_markup,
         parse_mode="HTML"
     )
+
+@dp.callback_query_handler(lambda c: c.data == "back_to_reports")
+async def back_to_reports(callback_query: types.CallbackQuery):
+    await callback_query.message.delete()
+    await show_reports(callback_query.message)
 
 if __name__ == '__main__':
     # Настраиваем политику событийного цикла
